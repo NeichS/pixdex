@@ -2,7 +2,7 @@ import { FlatList, Pressable, ScrollView, Text, View } from "react-native";
 import * as Font from "expo-font";
 import { Image } from "expo-image";
 import { useState, useEffect } from "react";
-import { router } from "expo-router";
+import { Href, router } from "expo-router";
 import { ROUTES } from "@/src/navigation/routes";
 import { getGeneroPorId, IGeneroContenidoAudiovisual } from "@/src/data/generosContenidoAudiovisual";
 import { getTipoPorId, ITipoContenidoAudiovisual } from "@/src/data/tiposContenidoAudiovisual";
@@ -124,7 +124,7 @@ function CajaJuego({ title, description, bgColor }: { title: string; description
 function TarjetaProducto({detail}: { detail: ContenidoAudiovisualMapped }) {
   const { id, imageUrl, nombre, generos } = detail;
   const handlePress = (id : string) => () => {
-    router.push(`/detail/${id}`);
+    router.push(`${ROUTES.DETAIL}${id}`);
   }
     
   return (

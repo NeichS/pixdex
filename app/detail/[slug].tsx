@@ -1,5 +1,6 @@
-import { Text, View, Pressable, Image } from "react-native";
+import { Text, View, Pressable } from "react-native";
 import { router } from "expo-router";
+import { Image } from "expo-image";
 import { useLocalSearchParams } from "expo-router";
 import { ContenidoAudiovisual, ContenidoAudiovisualMapped, contenidosAudiovisuales } from "@/src/data/contenidosAudiovisuales";
 import { getGeneroPorId, IGeneroContenidoAudiovisual } from "@/src/data/generosContenidoAudiovisual";
