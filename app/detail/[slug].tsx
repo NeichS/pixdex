@@ -2,6 +2,7 @@ import { Text, View, Pressable } from "react-native";
 import { router } from "expo-router";
 import { Image } from "expo-image";
 import { useLocalSearchParams } from "expo-router";
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { ContenidoAudiovisual, ContenidoAudiovisualMapped, contenidosAudiovisuales } from "@/src/data/contenidosAudiovisuales";
 import { getGeneroPorId, IGeneroContenidoAudiovisual } from "@/src/data/generosContenidoAudiovisual";
 import { getTipoPorId } from "@/src/data/tiposContenidoAudiovisual";
@@ -34,10 +35,15 @@ export default function Detail() {
   return (
     <View style={{flex :1, backgroundColor : "#1A1F2C", padding: 10, gap : 20}}>
         <View style={{ backgroundColor: "#6E59A5", padding : 5, borderWidth:1, borderLeftColor:"#9B87F5", borderTopColor:"#9B87F5", width: 100 }}>
-          <Pressable onPress={handleBackToHome}>
+          <Pressable onPress={handleBackToHome} style={{flexDirection : "row", gap : 5, alignItems: "center"}}>
+            <View>
+            <Ionicons name="arrow-back" size={20} color="black" style={{color: "white"}}/>
+            </View>
+            <View>
             <Text style={{color: "white", textAlign:"center", fontFamily :"PressStart", fontSize:12}}>
               BACK
             </Text>
+            </View>
           </Pressable>
         </View>
       <View style={{flex: 1, borderWidth: 4, borderColor: "#403E43", padding : 15, flexDirection: "column", gap: 10, justifyContent: "space-between"}}>
