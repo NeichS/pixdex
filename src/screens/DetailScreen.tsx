@@ -9,9 +9,9 @@ import { getTipoPorId } from "@/src/data/tiposContenidoAudiovisual";
 
 
 export function Detail() {    
-  const { slug } = useLocalSearchParams<{ slug: string }>();
+  const { id } = useLocalSearchParams<{ id: string }>();
 
-  const contenido : ContenidoAudiovisual = contenidosAudiovisuales.find((item) => item.id.toString() === slug) || {id : 0, nombre : "", descripcion: "", generos: [],tipoId: 0, imageUrl : ""};
+  const contenido : ContenidoAudiovisual = contenidosAudiovisuales.find((item) => item.id.toString() === id) || {id : 0, nombre : "", descripcion: "", generos: [],tipoId: 0, imageUrl : ""};
 
   let temp : IGeneroContenidoAudiovisual[] = [];
       contenido.generos.forEach(generoId => {

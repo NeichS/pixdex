@@ -1,8 +1,7 @@
-import { FlatList, Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import * as Font from "expo-font";
 import { CajaJuego } from "./components/CajaJuego";
 import { useState, useEffect } from "react";
-import { TarjetaProducto } from "./components/TarjetaProducto";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { getGeneroPorId, IGeneroContenidoAudiovisual } from "@/src/data/generosContenidoAudiovisual";
 import { Generos } from "./components/Generos";
