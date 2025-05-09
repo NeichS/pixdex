@@ -1,7 +1,6 @@
 import { Text, View, Pressable } from "react-native";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { Image } from "expo-image";
-import { useLocalSearchParams } from "expo-router";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { ContenidoAudiovisual, ContenidoAudiovisualMapped, contenidosAudiovisuales } from "@/src/data/contenidosAudiovisuales";
 import { getGeneroPorId, IGeneroContenidoAudiovisual } from "@/src/data/generosContenidoAudiovisual";
@@ -29,7 +28,7 @@ export function Detail() {
   } as ContenidoAudiovisualMapped
 
   const handleBackToHome = () => {
-    router.push("/");
+    router.back();
   }
 
   return (
