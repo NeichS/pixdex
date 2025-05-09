@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { TarjetaProducto } from "./components/TarjetaProducto";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { getGeneroPorId, IGeneroContenidoAudiovisual } from "@/src/data/generosContenidoAudiovisual";
+import { Generos } from "./components/Generos";
 import { getTipoPorId, ITipoContenidoAudiovisual } from "@/src/data/tiposContenidoAudiovisual";
 import { ContenidoAudiovisual, ContenidoAudiovisualMapped, contenidosAudiovisuales } from "@/src/data/contenidosAudiovisuales";
 
@@ -40,7 +41,6 @@ export function HomeScreen() {
               FILTRAR
             </Text>
             </View>
-            
             </View>
           </Pressable>
         </View>
@@ -53,63 +53,9 @@ export function HomeScreen() {
 
       <View style={{height: 590, margin : 5}}>
         <ScrollView contentContainerStyle={{gap:15}}>
-          <View style={{borderWidth: 4, borderColor:"#403E43", marginTop: 10, marginHorizontal: 5}}>
-          <View style={{backgroundColor: "#6E59A5", marginTop: -10, marginLeft:10,alignSelf: "flex-start", borderWidth: 1 ,borderColor: "#9B87F5"}}>
-            <Text style={{color: "white", fontSize: 12, margin : 4, fontFamily:"PressStart"}}>
-              Series
-            </Text>
-          </View>
-          <FlatList
-            contentContainerStyle={{ gap: 8, margin : 10 }}
-            data={series}
-            horizontal                          // habilita scroll horizontal
-            keyExtractor={(item) => item.id.toString()}   // cada item debe tener key única
-            renderItem={({ item }) => (
-              <TarjetaProducto
-                detail={item}
-              />
-            )}
-            showsHorizontalScrollIndicator={false}
-            />
-        </View>
-        <View style={{borderWidth: 4, borderColor:"#403E43", marginHorizontal: 5}}>
-          <View style={{backgroundColor: "#6E59A5", marginTop: -10, marginLeft:10,alignSelf: "flex-start", borderWidth: 1 ,borderColor: "#9B87F5"}}>
-            <Text style={{color: "white", fontSize: 12, fontFamily:"PressStart", margin : 4}}>
-              Peliculas
-            </Text>
-          </View>
-          <FlatList
-            contentContainerStyle={{ gap: 8, margin : 10 }}
-            data={pelis}
-            horizontal                          // habilita scroll horizontal
-            keyExtractor={(item) => item.id.toString()}   // cada item debe tener key única
-            renderItem={({ item }) => (
-              <TarjetaProducto
-                detail={item}
-              />
-            )}
-            showsHorizontalScrollIndicator={false}
-            />
-        </View>
-        <View style={{borderWidth: 4, borderColor:"#403E43", marginHorizontal: 5, marginBottom:50}}>
-          <View style={{backgroundColor: "#6E59A5", marginTop: -10, marginLeft:10,alignSelf: "flex-start", borderWidth: 1 ,borderColor: "#9B87F5"}}>
-            <Text style={{color: "white", fontSize: 12, fontFamily:"PressStart", margin : 4}}>
-              Animes
-            </Text>
-          </View>
-          <FlatList
-            contentContainerStyle={{ gap: 8, margin : 10 }}
-            data={animes}
-            horizontal                          // habilita scroll horizontal
-            keyExtractor={(item) => item.id.toString()}   // cada item debe tener key única
-            renderItem={({ item }) => (
-              <TarjetaProducto
-                detail={item}
-              />
-            )}
-            showsHorizontalScrollIndicator={false}
-            />
-        </View>
+          <Generos lista={series} generoTitulo="Series"/>
+          <Generos lista={animes} generoTitulo="Animes"/> 
+          <Generos lista={pelis} generoTitulo="Peliculas"/> 
         </ScrollView>
       </View>
     </View>
