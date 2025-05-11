@@ -1,4 +1,4 @@
-import { FlatList, Pressable, ScrollView, Text, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import { TarjetaProducto } from "./TarjetaProducto";
 import { ContenidoAudiovisualMapped } from "@/src/data/contenidosAudiovisuales";
 

@@ -1,4 +1,4 @@
-import { Pressable, ScrollView, Text, View } from "react-native";
+import {  ScrollView, Text, TouchableOpacity, View } from "react-native";
 import * as Font from "expo-font";
 import { CajaJuego } from "./components/CajaJuego";
 import { useState, useEffect } from "react";
@@ -30,18 +30,16 @@ export function HomeScreen() {
         </Text>
 
         <View style={{ backgroundColor: "#6E59A5", padding : 5, borderWidth:1, borderLeftColor:"#9B87F5", borderTopColor:"#9B87F5", width: 160 }}>
-          <Pressable>
+          <TouchableOpacity>
             <View style={{ flexDirection: "row", justifyContent: "center" ,alignItems: "center", gap: 8 }}>
+              <View>
+                <Ionicons name="filter" size={20} color="black" style={{color:"white"}} />
+              </View>
             <View>
-            <Ionicons name="filter" size={20} color="black" style={{color:"white"}} />
-            </View>
-            <View>
-            <Text style={{color: "white", textAlign:"center", fontFamily :"PressStart", fontSize:12}}>
-              FILTRAR
-            </Text>
+            <Text style={{color: "white", textAlign:"center", fontFamily :"PressStart", fontSize:12}}>FILTRAR</Text>
             </View>
             </View>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
 

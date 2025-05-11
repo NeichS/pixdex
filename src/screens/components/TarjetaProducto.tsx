@@ -1,8 +1,9 @@
-import { Pressable,  Text, View } from "react-native";
+import { TouchableOpacity,  Text, View } from "react-native";
 import { Image } from "expo-image";
 import { ROUTES } from "@/src/navigation/routes";
 import { router } from "expo-router";
-import { ContenidoAudiovisual, ContenidoAudiovisualMapped, contenidosAudiovisuales } from "@/src/data/contenidosAudiovisuales";
+import {  ContenidoAudiovisualMapped } from "@/src/data/contenidosAudiovisuales";
+import { Tag } from "./Tag";
 
 export function TarjetaProducto({detail}: { detail: ContenidoAudiovisualMapped }) {
   const { id, imageUrl, nombre, generos } = detail;
@@ -11,7 +12,7 @@ export function TarjetaProducto({detail}: { detail: ContenidoAudiovisualMapped }
   }
     
   return (
-    <Pressable 
+    <TouchableOpacity 
     onPress={handlePress(id.toString())}
     style={{flexDirection : "column", borderWidth : 2, borderBottomColor: "#8E9196", borderRightColor: "#8E9196", paddingBottom: 8, width : 150, gap : 2}}>
       <View  accessibilityLabel="image">
@@ -25,21 +26,10 @@ export function TarjetaProducto({detail}: { detail: ContenidoAudiovisualMapped }
       <Text style={{color : "white", fontSize: 10, margin: 5, fontFamily:"PressStart"}}>{nombre}</Text>
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 4, maxWidth: 150 }}>
             {generos.map((cat, index) => (
-              <Text
-                key={index}                            // cada elemento debe tener una key única
-                style={{
-                  backgroundColor: "#403E43",
-                  color: "white",
-                  fontSize: 10,
-                  paddingHorizontal: 6,
-                  paddingVertical: 2,
-                }}
-              >
-                {cat.nombre}
-              </Text>
+              <Tag key={index} index={index} text={cat.nombre}/>
             ))}
           </View>
       </View>
-    </Pressable> 
+    </TouchableOpacity> 
   ) 
 }
