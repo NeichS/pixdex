@@ -1,4 +1,4 @@
-import {  ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {  ScrollView, StatusBar, Text, TouchableOpacity, View } from "react-native";
 import * as Font from "expo-font";
 import { CajaJuego } from "./components/CajaJuego";
 import { useState, useEffect } from "react";
@@ -24,6 +24,10 @@ export function HomeScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: "#1A1F2C", padding : 1, gap: 5 }}>
+            <StatusBar
+        backgroundColor="#1A1F2C"
+        barStyle="light-content"
+      />
       <View style={{ flexDirection: "row", justifyContent: "space-between", margin : 4 , padding:4}}>
         <Text style={{ color: "#6E59A5", fontSize: 24, fontWeight: 500, fontFamily: "PressStart" }}>
           Pixdex
