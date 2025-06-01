@@ -15,6 +15,7 @@ import { getTipoPorId } from "@/src/data/tiposContenidoAudiovisual";
 import { Tag } from "./components/Tag";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextPressStart2P } from "./components/TextPressStart2P";
+import { ListaGeneros } from "./components/ListaGeneros";
 
 export function Detail() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -50,10 +51,7 @@ export function Detail() {
   };
 
   return (
-    <SafeAreaView
-      edges={["top"]}
-      style={{ flex: 1, backgroundColor: "#1A1F2C", padding: 10, gap: 20 }}
-    >
+    <SafeAreaView edges={["top"]} style={styles.mainContainer}>
       <View style={{ width: 100 }}>
         <Button label="BACK" action={handleBackToHome} iconName="arrow-back" />
       </View>
@@ -75,20 +73,22 @@ export function Detail() {
           <Tag key={1} index={1} text="Tv" />
         </View>
         <Text style={{ color: "white" }}>{contenidoMapped.descripcion}</Text>
-        <TextPressStart2P style={{ color: "#5FD068", fontSize: 14 }}>
+        <TextPressStart2P style={styles.h2}>
           Genres
         </TextPressStart2P>
-        <View style={{ flexDirection: "row", gap: 5 }}>
-          {contenidoMapped.generos.map((cat, index) => (
-            <Tag key={index} index={index} text={cat.nombre} />
-          ))}
-        </View>
+        <ListaGeneros generos={contenidoMapped.generos}/>
       </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: "#1A1F2C",
+    padding: 10,
+    gap: 20,
+  },
   card: {
     flex: 1,
     borderWidth: 4,
@@ -107,5 +107,8 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     paddingHorizontal: 10,
     marginTop: -20,
+  },
+  h2: {
+    color: "#5FD068", fontSize: 14 
   },
 });

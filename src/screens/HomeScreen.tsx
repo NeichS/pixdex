@@ -1,7 +1,6 @@
 import {
   ScrollView,
   StatusBar,
-  TouchableOpacity,
   View,
   Platform,
   StyleSheet,
@@ -59,9 +58,8 @@ export function HomeScreen() {
       />
       <View style={styles.topContainer}>
         <TextPressStart2P style={styles.h1}>Pixdex</TextPressStart2P>
-       <Button label="FILTRAR" action={handleFilter} iconName="filter"/>
+        <Button label="FILTRAR" action={handleFilter} iconName="filter" />
       </View>
-
       <View style={{ flexDirection: "row", gap: 4, padding: 4 }}>
         <CajaJuego
           title="Desafio del ahorcado"
