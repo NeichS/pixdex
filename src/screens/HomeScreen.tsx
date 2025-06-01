@@ -3,12 +3,11 @@ import {
   StatusBar,
   TouchableOpacity,
   View,
-  Platform
+  Platform,
+  StyleSheet,
 } from "react-native";
-import * as Font from "expo-font";
 import { CajaJuego } from "./components/CajaJuego";
-import { useState, useEffect } from "react";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { useEffect } from "react";
 import {
   getGeneroPorId,
   IGeneroContenidoAudiovisual,
@@ -24,8 +23,9 @@ import {
   contenidosAudiovisuales,
 } from "@/src/data/contenidosAudiovisuales";
 import { SafeAreaView } from "react-native-safe-area-context";
-import * as NavigationBar from 'expo-navigation-bar';
+import * as NavigationBar from "expo-navigation-bar";
 import { TextPressStart2P } from "./components/TextPressStart2P";
+import { Button } from "./components/Button";
 
 const series: ContenidoAudiovisualMapped[] = mapContenidoAudiovisual(
   contenidosAudiovisuales.filter((contenido) => contenido.tipoId === 1)
@@ -38,83 +38,28 @@ const animes: ContenidoAudiovisualMapped[] = mapContenidoAudiovisual(
 );
 
 export function HomeScreen() {
-  
   useEffect(() => {
     // Solo se aplica en Android:
-    if (Platform.OS === 'android') {
-      NavigationBar.setButtonStyleAsync('light');
-      NavigationBar.setBackgroundColorAsync('transparent');
+    if (Platform.OS === "android") {
+      NavigationBar.setButtonStyleAsync("light");
+      NavigationBar.setBackgroundColorAsync("transparent");
     }
   }, []);
+
+  const handleFilter = () => {
+    // Implementar la lógica de filtrado aquí
+    console.log("Filtrar contenido");
+  };
   return (
-    <SafeAreaView
-      edges={["top"]}
-      style={{ flex: 1, backgroundColor: "#1A1F2C", gap: 5, paddingBottom: 20 }}
-    >
+    <SafeAreaView edges={["top"]} style={styles.mainContainer}>
       <StatusBar
         barStyle="light-content"
         translucent={true}
         backgroundColor="transparent"
       />
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          margin: 4,
-          padding: 4,
-        }}
-      >
-        <TextPressStart2P
-          style={{
-            color: "#6E59A5",
-            fontSize: 24,
-            fontWeight: 500,
-          }}
-        >
-          Pixdex
-        </TextPressStart2P>
-
-        <View
-          style={{
-            backgroundColor: "#6E59A5",
-            padding: 5,
-            borderWidth: 1,
-            borderLeftColor: "#9B87F5",
-            borderTopColor: "#9B87F5",
-            width: 160,
-          }}
-        >
-          <TouchableOpacity>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: 8,
-              }}
-            >
-              <View>
-                <Ionicons
-                  name="filter"
-                  size={20}
-                  color="black"
-                  style={{ color: "white" }}
-                />
-              </View>
-              <View>
-                <TextPressStart2P
-                  style={{
-                    color: "white",
-                    textAlign: "center",
-                    fontSize: 12,
-                  }}
-                >
-                  FILTRAR
-                </TextPressStart2P>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
+      <View style={styles.topContainer}>
+        <TextPressStart2P style={styles.h1}>Pixdex</TextPressStart2P>
+       <Button label="FILTRAR" action={handleFilter} iconName="filter"/>
       </View>
 
       <View style={{ flexDirection: "row", gap: 4, padding: 4 }}>
@@ -167,3 +112,23 @@ function mapContenidoAudiovisual(
 
   return contenidoAudiovisualMapeado;
 }
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: "#1A1F2C",
+    gap: 5,
+    paddingBottom: 20,
+  },
+  topContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    margin: 4,
+    padding: 4,
+  },
+  h1: {
+    color: "#6E59A5",
+    fontSize: 24,
+    fontWeight: 500,
+  },
+});
