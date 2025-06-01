@@ -27,7 +27,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Un profesor de química se convierte en fabricante de metanfetaminas.",
     generos: [1, 3, 10],
     tipoId: 1,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 2,
@@ -36,7 +36,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Un grupo de niños se enfrenta a fuerzas sobrenaturales en su ciudad.",
     generos: [1, 4, 8],
     tipoId: 1,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 3,
@@ -45,7 +45,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Seis amigos viven las altas y bajas de la vida en Nueva York.",
     generos: [2, 1],
     tipoId: 1,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 4,
@@ -54,7 +54,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "La vida cotidiana en una oficina de papel con mucho humor absurdo.",
     generos: [2],
     tipoId: 1,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 5,
@@ -62,7 +62,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Familias nobles luchan por el control de los Siete Reinos.",
     generos: [1, 6, 5],
     tipoId: 1,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 6,
@@ -71,7 +71,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Un cazarrecompensas viaja por la galaxia protegiendo a un misterioso niño.",
     generos: [4, 5, 11],
     tipoId: 1,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 7,
@@ -80,7 +80,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Desapariciones en un pueblo alemán revelan oscuros secretos temporales.",
     generos: [8, 1, 4],
     tipoId: 1,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 8,
@@ -88,7 +88,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Dramatización de la vida de la reina Isabel II.",
     generos: [1, 15],
     tipoId: 1,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 9,
@@ -96,7 +96,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Una moderna adaptación de Sherlock Holmes.",
     generos: [8, 1],
     tipoId: 1,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 10,
@@ -105,7 +105,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Un grupo busca exponer los crímenes de superhéroes corruptos.",
     generos: [3, 11, 10],
     tipoId: 1,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 11,
@@ -113,7 +113,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "El origen del abogado de Breaking Bad.",
     generos: [1, 10],
     tipoId: 1,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 12,
@@ -121,7 +121,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Un hombre cuenta a sus hijos cómo conoció a su madre.",
     generos: [2, 9],
     tipoId: 1,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 13,
@@ -130,7 +130,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Un cazador de monstruos lucha por encontrar su lugar en un mundo brutal.",
     generos: [5, 6, 1],
     tipoId: 1,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 14,
@@ -138,7 +138,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Un político ambicioso trama su camino hacia el poder.",
     generos: [1, 10],
     tipoId: 1,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 15,
@@ -147,7 +147,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Una familia criminal británica después de la Primera Guerra Mundial.",
     generos: [1, 3, 15],
     tipoId: 1,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 16,
@@ -155,7 +155,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Antología que explora el lado oscuro de la tecnología.",
     generos: [4, 10],
     tipoId: 1,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 17,
@@ -163,7 +163,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Adolescentes enfrentan amor, adicciones y traumas.",
     generos: [1, 9],
     tipoId: 1,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 18,
@@ -172,7 +172,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Una familia millonaria lucha por el control del imperio mediático.",
     generos: [1, 10],
     tipoId: 1,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 19,
@@ -181,7 +181,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Supervivientes de un accidente aéreo intentan sobrevivir en una isla misteriosa.",
     generos: [5, 8],
     tipoId: 1,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 20,
@@ -189,7 +189,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Una pandemia convierte a la humanidad en monstruos.",
     generos: [3, 4, 1],
     tipoId: 1,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 21,
@@ -197,7 +197,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Un ladrón entra en los sueños de otros para robar secretos.",
     generos: [4, 10, 1],
     tipoId: 2,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 22,
@@ -205,7 +205,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Un hacker descubre la verdad sobre su realidad simulada.",
     generos: [4, 3],
     tipoId: 2,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 23,
@@ -213,7 +213,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Historias entrelazadas de crimen en Los Ángeles.",
     generos: [1, 2, 10],
     tipoId: 2,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 24,
@@ -221,7 +221,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Un amor trágico a bordo del famoso barco.",
     generos: [1, 9, 15],
     tipoId: 2,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 25,
@@ -229,7 +229,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Batman enfrenta al temible Joker en Ciudad Gótica.",
     generos: [3, 11, 10],
     tipoId: 2,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 26,
@@ -238,7 +238,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Un hombre simple vive momentos clave de la historia de EE.UU.",
     generos: [1, 2, 15],
     tipoId: 2,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 27,
@@ -247,7 +247,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Astronautas viajan a través de un agujero de gusano para salvar a la humanidad.",
     generos: [4, 1, 5],
     tipoId: 2,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 28,
@@ -255,7 +255,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Un hombre crea un club de lucha secreto que cambia su vida.",
     generos: [1, 10],
     tipoId: 2,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 29,
@@ -263,7 +263,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Un general romano busca venganza como gladiador.",
     generos: [3, 15, 1],
     tipoId: 2,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 30,
@@ -271,7 +271,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "La historia de una poderosa familia mafiosa.",
     generos: [1, 10, 15],
     tipoId: 2,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 31,
@@ -279,7 +279,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Los Vengadores enfrentan la batalla final contra Thanos.",
     generos: [3, 11, 4],
     tipoId: 2,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 32,
@@ -288,7 +288,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Una familia pobre se infiltra en la vida de una familia rica.",
     generos: [1, 10],
     tipoId: 2,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 33,
@@ -297,7 +297,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Una historia de amor entre un pianista y una actriz en Los Ángeles.",
     generos: [2, 9],
     tipoId: 2,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 34,
@@ -305,7 +305,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "El origen del famoso villano de Gotham.",
     generos: [1, 10],
     tipoId: 2,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 35,
@@ -313,7 +313,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Un escritor pierde la cordura en un hotel aislado.",
     generos: [7, 10],
     tipoId: 2,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 36,
@@ -321,7 +321,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Los juguetes cobran vida cuando nadie los ve.",
     generos: [2, 5, 6],
     tipoId: 2,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 37,
@@ -330,7 +330,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "La historia de un hombre que salvó a cientos de judíos durante el Holocausto.",
     generos: [1, 15],
     tipoId: 2,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 38,
@@ -339,7 +339,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Una niña entra en un mundo espiritual para salvar a sus padres.",
     generos: [6, 5, 1],
     tipoId: 2,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 39,
@@ -348,7 +348,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Una agente del FBI busca la ayuda de un asesino para atrapar a otro.",
     generos: [8, 10, 7],
     tipoId: 2,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 40,
@@ -357,7 +357,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Un niño viaja al mundo de los muertos para descubrir su herencia familiar.",
     generos: [6, 15, 2],
     tipoId: 2,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
 
   // ANIME
@@ -367,7 +367,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Un joven ninja busca convertirse en el líder de su aldea.",
     generos: [13, 5, 6],
     tipoId: 3,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 42,
@@ -375,7 +375,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Humanos luchan por sobrevivir contra titanes gigantes.",
     generos: [3, 10, 13],
     tipoId: 3,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 43,
@@ -383,7 +383,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Piratas buscan el tesoro legendario llamado One Piece.",
     generos: [5, 6, 13],
     tipoId: 3,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 44,
@@ -391,7 +391,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Un estudiante obtiene un cuaderno con el poder de matar.",
     generos: [8, 10, 13],
     tipoId: 3,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 45,
@@ -399,7 +399,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Dos hermanos alquimistas buscan la Piedra Filosofal.",
     generos: [5, 6, 13],
     tipoId: 3,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 46,
@@ -408,7 +408,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "En un mundo con superpoderes, un chico sin dones quiere ser héroe.",
     generos: [11, 13, 3],
     tipoId: 3,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 47,
@@ -416,7 +416,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Un joven caza demonios tras perder a su familia.",
     generos: [3, 6, 13],
     tipoId: 3,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 48,
@@ -424,7 +424,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Estudiantes de hechicería luchan contra maldiciones.",
     generos: [3, 6, 13],
     tipoId: 3,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 49,
@@ -432,7 +432,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Guerreros protegen la Tierra de amenazas cósmicas.",
     generos: [3, 13, 6],
     tipoId: 3,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 50,
@@ -441,7 +441,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Cazarrecompensas viajan por el espacio enfrentando su pasado.",
     generos: [4, 5, 13],
     tipoId: 3,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 51,
@@ -450,7 +450,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Un estudiante se transforma en mitad ghoul tras un accidente.",
     generos: [7, 10, 13],
     tipoId: 3,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 52,
@@ -459,7 +459,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Un joven obtiene poderes para luchar contra espíritus malignos.",
     generos: [3, 6, 13],
     tipoId: 3,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 53,
@@ -467,7 +467,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Un grupo descubre cómo enviar mensajes al pasado.",
     generos: [4, 10, 8],
     tipoId: 3,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 54,
@@ -475,7 +475,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Un joven psíquico intenta vivir una vida normal.",
     generos: [2, 11, 13],
     tipoId: 3,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 55,
@@ -483,7 +483,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Un equipo de voleibol lucha por llegar a la cima.",
     generos: [12, 1, 13],
     tipoId: 3,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 56,
@@ -492,7 +492,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Un estudiante problemático cambia su vida al conocer a una chica especial.",
     generos: [1, 9, 12],
     tipoId: 3,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 57,
@@ -500,7 +500,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Adolescentes pilotan mechas para salvar al mundo.",
     generos: [14, 4, 13],
     tipoId: 3,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 58,
@@ -509,7 +509,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Un joven obtiene un poder para controlar la voluntad de los demás.",
     generos: [14, 10, 13],
     tipoId: 3,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 59,
@@ -517,7 +517,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
     descripcion: "Jugadores quedan atrapados en un juego de realidad virtual.",
     generos: [4, 5, 13],
     tipoId: 3,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
   {
     id: 60,
@@ -526,6 +526,6 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
       "Dos adolescentes intercambian cuerpos y se conectan a través del tiempo.",
     generos: [9, 6, 4],
     tipoId: 3,
-    imageUrl: "https://placehold.co/400x600",
+    imageUrl: "https://place-hold.it/400x600",
   },
 ];

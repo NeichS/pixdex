@@ -1,6 +1,7 @@
 import { FlatList, Text, View } from "react-native";
 import { TarjetaProducto } from "./TarjetaProducto";
 import { ContenidoAudiovisualMapped } from "@/src/data/contenidosAudiovisuales";
+import { TextPressStart2P } from "./TextPressStart2P";
 
 export function Generos({
   lista,
@@ -28,16 +29,15 @@ export function Generos({
           borderColor: "#9B87F5",
         }}
       >
-        <Text
+        <TextPressStart2P
           style={{
             color: "white",
             fontSize: 12,
             margin: 4,
-            fontFamily: "PressStart",
           }}
         >
           {generoTitulo}
-        </Text>
+        </TextPressStart2P>
       </View>
       <FlatList
         contentContainerStyle={{ gap: 8, margin: 10 }}

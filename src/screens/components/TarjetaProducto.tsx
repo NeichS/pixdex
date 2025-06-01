@@ -4,6 +4,7 @@ import { ROUTES } from "@/src/navigation/routes";
 import { router } from "expo-router";
 import {  ContenidoAudiovisualMapped } from "@/src/data/contenidosAudiovisuales";
 import { Tag } from "./Tag";
+import { TextPressStart2P } from "./TextPressStart2P";
 
 export function TarjetaProducto({detail}: { detail: ContenidoAudiovisualMapped }) {
   const { id, imageUrl, nombre, generos } = detail;
@@ -23,7 +24,7 @@ export function TarjetaProducto({detail}: { detail: ContenidoAudiovisualMapped }
       />
       </View>
       <View style={{padding:5, gap : 2}}>
-      <Text style={{color : "white", fontSize: 10, margin: 5, fontFamily:"PressStart"}}>{nombre}</Text>
+      <TextPressStart2P style={{color : "white", fontSize: 10, margin: 5}}>{nombre}</TextPressStart2P>
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 4, maxWidth: 150 }}>
             {generos.map((cat, index) => (
               <Tag key={index} index={index} text={cat.nombre}/>

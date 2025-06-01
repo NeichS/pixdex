@@ -13,6 +13,8 @@ import {
 } from "@/src/data/generosContenidoAudiovisual";
 import { getTipoPorId } from "@/src/data/tiposContenidoAudiovisual";
 import { Tag } from "./components/Tag";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { TextPressStart2P } from "./components/TextPressStart2P";
 
 export function Detail() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -44,7 +46,7 @@ export function Detail() {
   } as ContenidoAudiovisualMapped;
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#1A1F2C", padding: 10, gap: 20 }}>
+    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: "#1A1F2C", padding: 10, gap: 20 }}>
       <BackButton />
       <View
         style={{
@@ -67,11 +69,11 @@ export function Detail() {
             accessibilityLabel="Imagen del producto"
           />
         </View>
-        <Text
-          style={{ color: "#6E59A5", fontFamily: "PressStart", fontSize: 20 }}
+        <TextPressStart2P
+          style={{ color: "#6E59A5", fontSize: 20 }}
         >
           {contenidoMapped.nombre}
-        </Text>
+        </TextPressStart2P>
         <View
           style={{
             backgroundColor: "#403E43",
@@ -83,17 +85,17 @@ export function Detail() {
           <Text style={{ color: "white" }}>Tv</Text>
         </View>
         <Text style={{ color: "white" }}>{contenidoMapped.descripcion}</Text>
-        <Text
-          style={{ color: "#5FD068", fontFamily: "PressStart", fontSize: 14 }}
+        <TextPressStart2P
+          style={{ color: "#5FD068", fontSize: 14 }}
         >
           Genres
-        </Text>
+        </TextPressStart2P>
         <View style={{ flexDirection: "row", gap: 5 }}>
           {contenidoMapped.generos.map((cat, index) => (
             <Tag key={index} index={index} text={cat.nombre} />
           ))}
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

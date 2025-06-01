@@ -1,9 +1,9 @@
 import {
   ScrollView,
   StatusBar,
-  Text,
   TouchableOpacity,
   View,
+  Platform
 } from "react-native";
 import * as Font from "expo-font";
 import { CajaJuego } from "./components/CajaJuego";
@@ -24,6 +24,8 @@ import {
   contenidosAudiovisuales,
 } from "@/src/data/contenidosAudiovisuales";
 import { SafeAreaView } from "react-native-safe-area-context";
+import * as NavigationBar from 'expo-navigation-bar';
+import { TextPressStart2P } from "./components/TextPressStart2P";
 
 const series: ContenidoAudiovisualMapped[] = mapContenidoAudiovisual(
   contenidosAudiovisuales.filter((contenido) => contenido.tipoId === 1)
@@ -36,14 +38,14 @@ const animes: ContenidoAudiovisualMapped[] = mapContenidoAudiovisual(
 );
 
 export function HomeScreen() {
-  const [loaded, setLoaded] = useState(false);
+  
   useEffect(() => {
-    Font.loadAsync({
-      PressStart: require("@/assets/fonts/PressStart2P-Regular.ttf"),
-    }).then(() => setLoaded(true));
+    // Solo se aplica en Android:
+    if (Platform.OS === 'android') {
+      NavigationBar.setButtonStyleAsync('light');
+      NavigationBar.setBackgroundColorAsync('transparent');
+    }
   }, []);
-  if (!loaded) return null;
-
   return (
     <SafeAreaView
       edges={["top"]}
@@ -62,16 +64,15 @@ export function HomeScreen() {
           padding: 4,
         }}
       >
-        <Text
+        <TextPressStart2P
           style={{
             color: "#6E59A5",
             fontSize: 24,
             fontWeight: 500,
-            fontFamily: "PressStart",
           }}
         >
           Pixdex
-        </Text>
+        </TextPressStart2P>
 
         <View
           style={{
@@ -101,16 +102,15 @@ export function HomeScreen() {
                 />
               </View>
               <View>
-                <Text
+                <TextPressStart2P
                   style={{
                     color: "white",
                     textAlign: "center",
-                    fontFamily: "PressStart",
                     fontSize: 12,
                   }}
                 >
                   FILTRAR
-                </Text>
+                </TextPressStart2P>
               </View>
             </View>
           </TouchableOpacity>
