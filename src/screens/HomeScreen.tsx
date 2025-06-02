@@ -60,7 +60,7 @@ export function HomeScreen() {
         <TextPressStart2P style={styles.h1}>Pixdex</TextPressStart2P>
         <Button label="FILTRAR" action={handleFilter} iconName="filter" />
       </View>
-      <View style={{ flexDirection: "row", gap: 4, padding: 4 }}>
+      <View style={styles.cajaJuegoContainer}>
         <CajaJuego
           title="Desafio del ahorcado"
           description="Adivina los títulos letra por letra ¿Cuántos puedes identificar?"
@@ -73,7 +73,7 @@ export function HomeScreen() {
         />
       </View>
 
-      <View style={{ height: 590, margin: 5 }}>
+      <View style={styles.contenidoContainer}>
         <ScrollView contentContainerStyle={{ gap: 15, paddingBottom: 70 }}>
           <Generos lista={series} generoTitulo="Series" />
           <Generos lista={animes} generoTitulo="Animes" />
@@ -128,5 +128,14 @@ const styles = StyleSheet.create({
     color: "#6E59A5",
     fontSize: 24,
     fontWeight: 500,
+  },
+  cajaJuegoContainer: {
+    flexDirection: "row",
+    gap: 4,
+    padding: 4,
+  },
+  contenidoContainer: {
+    height: 590,
+    margin: 5,
   },
 });
