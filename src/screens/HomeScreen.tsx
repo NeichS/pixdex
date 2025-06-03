@@ -1,21 +1,32 @@
-import { ScrollView, View, StyleSheet } from "react-native";
+import { ScrollView, View, StyleSheet, Modal, Alert, Text } from "react-native";
 import { CajaJuego } from "./components/CajaJuego";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextPressStart2P } from "./components/TextPressStart2P";
 import { Button } from "./components/Button";
+import { Pressable } from "react-native";
 import { Contenido } from "./components/Contenido";
+import { useState } from "react";
+import { FilterModal } from "./components/FilterModal";
 
 export function HomeScreen() {
-  const handleFilter = () => {
-    console.log("Filtrar contenido");
+  
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const openModal = () => {
+    setModalVisible(true);  
+  };
+
+  const onCloseModal = () => {
+    setModalVisible(false);
   };
 
   return (
     <SafeAreaView edges={["top", "bottom"]} style={styles.mainContainer}>
       <View style={styles.topContainer}>
         <TextPressStart2P style={styles.h1}>Pixdex</TextPressStart2P>
-        <Button label="FILTRAR" action={handleFilter} iconName="filter" />
+        <Button label="FILTRAR" action={openModal} iconName="filter" />
       </View>
+      <FilterModal visible={modalVisible} onClose={onCloseModal}/>
       <View style={styles.cajaJuegoContainer}>
         <CajaJuego
           title="Desafio del ahorcado"
