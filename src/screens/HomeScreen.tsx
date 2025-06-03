@@ -1,8 +1,4 @@
-import {
-  ScrollView,
-  View,
-  StyleSheet,
-} from "react-native";
+import { ScrollView, View, StyleSheet } from "react-native";
 import { CajaJuego } from "./components/CajaJuego";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextPressStart2P } from "./components/TextPressStart2P";
@@ -10,7 +6,6 @@ import { Button } from "./components/Button";
 import { Contenido } from "./components/Contenido";
 
 export function HomeScreen() {
-
   const handleFilter = () => {
     console.log("Filtrar contenido");
   };
@@ -35,7 +30,7 @@ export function HomeScreen() {
       </View>
 
       <View style={styles.contenidoContainer}>
-        <ScrollView contentContainerStyle={{ gap: 15, paddingBottom: 70 }}>
+        <ScrollView contentContainerStyle={styles.scrollViewContenido}>
           <Contenido />
         </ScrollView>
       </View>
@@ -70,5 +65,9 @@ const styles = StyleSheet.create({
     height: 590,
     margin: 5,
     marginBottom: 10,
+  },
+  scrollViewContenido: {
+    gap: 15,
+    paddingBottom: 70,
   },
 });
