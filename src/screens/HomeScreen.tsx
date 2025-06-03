@@ -4,40 +4,17 @@ import {
   StyleSheet,
 } from "react-native";
 import { CajaJuego } from "./components/CajaJuego";
-import {
-  getGeneroPorId,
-  IGeneroContenidoAudiovisual,
-} from "@/src/data/generosContenidoAudiovisual";
-import { Generos } from "./components/Generos";
-import {
-  getTipoPorId,
-  ITipoContenidoAudiovisual,
-} from "@/src/data/tiposContenidoAudiovisual";
-import {
-  ContenidoAudiovisual,
-  ContenidoAudiovisualMapped,
-  contenidosAudiovisuales,
-} from "@/src/data/contenidosAudiovisuales";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextPressStart2P } from "./components/TextPressStart2P";
 import { Button } from "./components/Button";
-
-const series: ContenidoAudiovisualMapped[] = mapContenidoAudiovisual(
-  contenidosAudiovisuales.filter((contenido) => contenido.tipoId === 1)
-);
-const pelis: ContenidoAudiovisualMapped[] = mapContenidoAudiovisual(
-  contenidosAudiovisuales.filter((contenido) => contenido.tipoId === 2)
-);
-const animes: ContenidoAudiovisualMapped[] = mapContenidoAudiovisual(
-  contenidosAudiovisuales.filter((contenido) => contenido.tipoId === 3)
-);
+import { Contenido } from "./components/Contenido";
 
 export function HomeScreen() {
 
   const handleFilter = () => {
     console.log("Filtrar contenido");
   };
-  
+
   return (
     <SafeAreaView edges={["top", "bottom"]} style={styles.mainContainer}>
       <View style={styles.topContainer}>
@@ -59,38 +36,11 @@ export function HomeScreen() {
 
       <View style={styles.contenidoContainer}>
         <ScrollView contentContainerStyle={{ gap: 15, paddingBottom: 70 }}>
-          <Generos lista={series} generoTitulo="SERIES" />
-          <Generos lista={animes} generoTitulo="ANIMES" />
-          <Generos lista={pelis} generoTitulo="PELICULAS" />
+          <Contenido />
         </ScrollView>
       </View>
     </SafeAreaView>
   );
-}
-
-function mapContenidoAudiovisual(
-  contenido: ContenidoAudiovisual[]
-): ContenidoAudiovisualMapped[] {
-  const contenidoAudiovisualMapeado: ContenidoAudiovisualMapped[] =
-    contenido.map((contenido) => {
-      const tipo: ITipoContenidoAudiovisual = getTipoPorId(contenido.tipoId);
-      let temp: IGeneroContenidoAudiovisual[] = [];
-      contenido.generos.forEach((generoId) => {
-        temp.push(getGeneroPorId(generoId));
-      });
-      const generos: IGeneroContenidoAudiovisual[] = temp;
-
-      return {
-        id: contenido.id,
-        nombre: contenido.nombre,
-        descripcion: contenido.descripcion,
-        generos: generos,
-        tipo: tipo,
-        imageUrl: contenido.imageUrl,
-      } as ContenidoAudiovisualMapped;
-    });
-
-  return contenidoAudiovisualMapeado;
 }
 
 const styles = StyleSheet.create({
