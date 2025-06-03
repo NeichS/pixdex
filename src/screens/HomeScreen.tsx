@@ -1,12 +1,9 @@
 import {
   ScrollView,
-  StatusBar,
   View,
-  Platform,
   StyleSheet,
 } from "react-native";
 import { CajaJuego } from "./components/CajaJuego";
-import { useEffect } from "react";
 import {
   getGeneroPorId,
   IGeneroContenidoAudiovisual,
@@ -22,7 +19,6 @@ import {
   contenidosAudiovisuales,
 } from "@/src/data/contenidosAudiovisuales";
 import { SafeAreaView } from "react-native-safe-area-context";
-import * as NavigationBar from "expo-navigation-bar";
 import { TextPressStart2P } from "./components/TextPressStart2P";
 import { Button } from "./components/Button";
 
@@ -37,25 +33,13 @@ const animes: ContenidoAudiovisualMapped[] = mapContenidoAudiovisual(
 );
 
 export function HomeScreen() {
-  useEffect(() => {
-    // Solo se aplica en Android:
-    if (Platform.OS === "android") {
-      NavigationBar.setButtonStyleAsync("light");
-      NavigationBar.setBackgroundColorAsync("transparent");
-    }
-  }, []);
 
   const handleFilter = () => {
-    // Implementar la lógica de filtrado aquí
     console.log("Filtrar contenido");
   };
+  
   return (
-    <SafeAreaView edges={["top"]} style={styles.mainContainer}>
-      <StatusBar
-        barStyle="light-content"
-        translucent={true}
-        backgroundColor="transparent"
-      />
+    <SafeAreaView edges={["top", "bottom"]} style={styles.mainContainer}>
       <View style={styles.topContainer}>
         <TextPressStart2P style={styles.h1}>Pixdex</TextPressStart2P>
         <Button label="FILTRAR" action={handleFilter} iconName="filter" />
@@ -75,13 +59,11 @@ export function HomeScreen() {
 
       <View style={styles.contenidoContainer}>
         <ScrollView contentContainerStyle={{ gap: 15, paddingBottom: 70 }}>
-          <Generos lista={series} generoTitulo="Series" />
-          <Generos lista={animes} generoTitulo="Animes" />
-          <Generos lista={pelis} generoTitulo="Peliculas" />
+          <Generos lista={series} generoTitulo="SERIES" />
+          <Generos lista={animes} generoTitulo="ANIMES" />
+          <Generos lista={pelis} generoTitulo="PELICULAS" />
         </ScrollView>
       </View>
-
-      <View style={{}}></View>
     </SafeAreaView>
   );
 }
@@ -137,5 +119,6 @@ const styles = StyleSheet.create({
   contenidoContainer: {
     height: 590,
     margin: 5,
+    marginBottom: 10,
   },
 });
