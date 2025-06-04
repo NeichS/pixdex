@@ -51,6 +51,7 @@ export function FilterModal({ visible, onClose }: PropsFilterModal) {
           <TextPressStart2P style={styles.greenTitle}>
             Content types
           </TextPressStart2P>
+          {/* deshardcodear esto jajaj */}
           <View style={styles.checkBoxContainer}>
             <Checkbox
               style={styles.checkbox}
