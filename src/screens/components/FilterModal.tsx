@@ -1,9 +1,18 @@
-import { StyleSheet, Text, View, Pressable, Alert, Modal } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  Alert,
+  Modal,
+  TouchableOpacity,
+} from "react-native";
 import Checkbox from "expo-checkbox";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { TextPressStart2P } from "./TextPressStart2P";
 import { useContext, useState } from "react";
 import { ContextoContenidos } from "@/src/context/Contenidos";
+import { Button } from "./Button";
 
 interface PropsFilterModal {
   visible: boolean;
@@ -14,7 +23,14 @@ interface PropsFilterModal {
 y tambien iterar todos los tags
 */
 export function FilterModal({ visible, onClose }: PropsFilterModal) {
-  const [checks, setChecks] = useState<boolean[]>([false, false, false]);
+  const { getAllTipos, getAllGeneros } = useContext(ContextoContenidos);
+  const [checks, setChecks] = useState<boolean[]>(
+    Array(getAllTipos().length).fill(false)
+  );
+  const [checksGeneros, setChecksGeneros] = useState<boolean[]>(
+    Array(getAllGeneros().length).fill(false)
+  );
+
   const toggleCheck = (index: number) => {
     setChecks((prevChecks) => {
       const nuevosChecks = prevChecks.map((valor, i) =>
@@ -23,8 +39,6 @@ export function FilterModal({ visible, onClose }: PropsFilterModal) {
       return nuevosChecks;
     });
   };
-
-  const { getAllTipos } = useContext(ContextoContenidos);
 
   return (
     <Modal
@@ -70,6 +84,36 @@ export function FilterModal({ visible, onClose }: PropsFilterModal) {
             );
           })}
           <TextPressStart2P style={styles.greenTitle}>Genres</TextPressStart2P>
+          <View style={styles.genresContainer}>
+            {getAllGeneros().map((genero, idx) => {
+              return (
+                <View key={idx} style={styles.checkBoxContainer}>
+                  <Checkbox
+                    style={styles.checkbox}
+                    value={checksGeneros[idx]}
+                    onValueChange={() => {
+                      setChecksGeneros((prevChecks) => {
+                        const nuevosChecks = prevChecks.map((valor, i) =>
+                          i === idx ? !valor : valor
+                        );
+                        return nuevosChecks;
+                      });
+                    }}
+                    color={checksGeneros[idx] ? "#6E59A5" : undefined}
+                  />
+                  <Text style={styles.checkboxText}>
+                    {genero.nombre.charAt(0).toUpperCase() +
+                      genero.nombre.slice(1)}
+                  </Text>
+                </View>
+              );
+            })}
+          </View>
+
+          <View style={styles.botonesContainer}>
+            <Button label="CANCEL" action={onClose} background="#403E43" />
+            <Button label="APLY FILTERS" action={() => {}} />
+          </View>
         </View>
       </View>
     </Modal>
@@ -117,11 +161,25 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     verticalAlign: "bottom",
     gap: 10,
+    maxHeight: 20,
   },
   checkbox: {
     borderColor: "#6E59A5",
   },
   checkboxText: {
     color: "white",
+  },
+  genresContainer: {
+    flexDirection: "column",
+    gap: 10,
+    maxHeight: 250,
+    flexWrap: "wrap",
+  },
+  botonesContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    width: "100%",
+    marginTop: 10,
+    gap: 10,
   },
 });

@@ -9,6 +9,7 @@ import {
   tiposContenidoAudiovisual,
 } from "@/src/data/tiposContenidoAudiovisual";
 import {
+  generosContenidoAudiovisual,
   getGeneroPorId,
   IGeneroContenidoAudiovisual,
 } from "@/src/data/generosContenidoAudiovisual";
@@ -19,11 +20,12 @@ interface PropsProvider {
 }
 
 interface IContextoContenidos {
-  contenidos: ContenidoAudiovisual[];
+  contenidos: ContenidoAudiovisual[]; //medio al pedo esto me parece
   mapContenido: (item: ContenidoAudiovisual) => ContenidoAudiovisualMapped;
   getAllContenido: () => ContenidoAudiovisualMapped[];
   getContenidoByTipo: (tipoId: number) => ContenidoAudiovisualMapped[];
   getAllTipos: () => ITipoContenidoAudiovisual[];
+  getAllGeneros: () => IGeneroContenidoAudiovisual[];
 }
 
 // valores por defecto del contexto
@@ -40,7 +42,10 @@ export const ContextoContenidos = createContext<IContextoContenidos>({
   },
   getAllTipos: () => {
     throw new Error("ContextoContenidos: getAllTipos no está inicializado");
-  }
+  },
+  getAllGeneros: () => {
+    throw new Error("ContextoContenidos: getAllGeneros no está inicializado");
+  },
 });
 
 export default function ContextoContenidosProvider({ children }: PropsProvider) {
@@ -77,6 +82,10 @@ export default function ContextoContenidosProvider({ children }: PropsProvider) 
     return () => tiposContenidoAudiovisual;
   }, [tiposContenidoAudiovisual]);
 
+  const getAllGeneros = useMemo((): (() => IGeneroContenidoAudiovisual[]) => {
+    return () => generosContenidoAudiovisual
+  }, [contenidos]);
+
   //  único value que se pasa al Provider
   const valueContexto: IContextoContenidos = {
     contenidos,
@@ -84,6 +93,7 @@ export default function ContextoContenidosProvider({ children }: PropsProvider) 
     getAllContenido: getAllContenido,
     getContenidoByTipo,
     getAllTipos: getAllTipos,
+    getAllGeneros: getAllGeneros,
   };
 
   return (

@@ -2,21 +2,28 @@ import { View, TouchableOpacity, StyleSheet } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { TextPressStart2P } from "./TextPressStart2P";
 
+interface PropsButton {
+  label: string;
+  action: () => void;
+  iconName?: React.ComponentProps<typeof Ionicons>["name"];
+  background?: string;
+}
+
 export function Button({
   label,
   action,
   iconName,
-}: {
-  label: string;
-  action: () => void;
-  iconName: React.ComponentProps<typeof Ionicons>["name"];
-}) {
+  background = "#6E59A5",
+}: PropsButton) {
   return (
-    <TouchableOpacity onPress={action} style={styles.button}>
-        <Ionicons name={iconName} color={"white"} size={20} />
-        <View>
-          <TextPressStart2P style={styles.buttonText}>{label}</TextPressStart2P>
-        </View>
+    <TouchableOpacity
+      onPress={action}
+      style={[styles.button, { backgroundColor: background }]}
+    >
+      {iconName && <Ionicons name={iconName} color={"white"} size={20} />}
+      <View>
+        <TextPressStart2P style={styles.buttonText}>{label}</TextPressStart2P>
+      </View>
     </TouchableOpacity>
   );
 }
