@@ -2,7 +2,8 @@ import { StyleSheet, Text, View, Pressable, Alert, Modal } from "react-native";
 import Checkbox from "expo-checkbox";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { TextPressStart2P } from "./TextPressStart2P";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ContextoContenidos } from "@/src/context/Contenidos";
 
 interface PropsFilterModal {
   visible: boolean;
@@ -22,6 +23,8 @@ export function FilterModal({ visible, onClose }: PropsFilterModal) {
       return nuevosChecks;
     });
   };
+
+  const { getAllTipos } = useContext(ContextoContenidos);
 
   return (
     <Modal
@@ -51,17 +54,21 @@ export function FilterModal({ visible, onClose }: PropsFilterModal) {
           <TextPressStart2P style={styles.greenTitle}>
             Content types
           </TextPressStart2P>
-          {/* deshardcodear esto jajaj */
-          }
-          <View style={styles.checkBoxContainer}>
-            <Checkbox
-              style={styles.checkbox}
-              value={checks[0]}
-              onValueChange={() => toggleCheck(0)}
-              color={checks[0] ? "#6E59A5" : undefined}
-            />
-            <Text style={styles.checkboxText}>TV Shows</Text>
-          </View>
+          {getAllTipos().map((tipo, idx) => {
+            return (
+              <View key={idx} style={styles.checkBoxContainer}>
+                <Checkbox
+                  style={styles.checkbox}
+                  value={checks[idx]}
+                  onValueChange={() => toggleCheck(idx)}
+                  color={checks[idx] ? "#6E59A5" : undefined}
+                />
+                <Text style={styles.checkboxText}>
+                  {tipo.plural.charAt(0).toUpperCase() + tipo.plural.slice(1)}
+                </Text>
+              </View>
+            );
+          })}
           <TextPressStart2P style={styles.greenTitle}>Genres</TextPressStart2P>
         </View>
       </View>

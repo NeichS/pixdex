@@ -3,12 +3,12 @@ import { TarjetaProducto } from "./TarjetaProducto";
 import { ContenidoAudiovisualMapped } from "@/src/data/contenidosAudiovisuales";
 import { TextPressStart2P } from "./TextPressStart2P";
 
-interface GenerosProps {
+interface ContenidoPorTipoProps {
   lista: ContenidoAudiovisualMapped[];
   generoTitulo: string;
 }
 
-export function Generos({ lista, generoTitulo }: GenerosProps) {
+export function ContenidoPorTipo({ lista, generoTitulo }: ContenidoPorTipoProps) {
   return (
     <View style={styles.container}>
       <View style={styles.generoContainer}>

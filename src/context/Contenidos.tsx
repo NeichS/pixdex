@@ -64,12 +64,10 @@ export default function ContextoContenidosProvider({ children }: PropsProvider) 
     };
   };
 
-  // Obtener todos los contenidos “mapeados”
   const getAllContenido = useMemo((): (() => ContenidoAudiovisualMapped[]) => {
     return () => contenidos.map((c) => mapContenido(c));
   }, [contenidos]);
 
-  //  Obtener contenidos “mapeados” filtrando por tipoId
   const getContenidoByTipo = (tipoId: number): ContenidoAudiovisualMapped[] => {
     const filtrados = contenidos.filter((c) => c.tipoId === tipoId);
     return filtrados.map((c) => mapContenido(c));

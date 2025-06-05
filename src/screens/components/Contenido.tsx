@@ -1,6 +1,6 @@
 import { ContenidoAudiovisualMapped } from "@/src/data/contenidosAudiovisuales";
 import { View, StyleSheet } from "react-native";
-import { Generos } from "./Generos";
+import { ContenidoPorTipo } from "./ContenidoPorTipo";
 import { useContext } from "react";
 import { ContextoContenidos } from "@/src/context/Contenidos";
 
@@ -14,7 +14,7 @@ export function Contenido() {
         const contenido: ContenidoAudiovisualMapped[] =
           getAllContenido().filter((c) => c.tipo.id === tipo.id);
         return (
-          <Generos
+          <ContenidoPorTipo
             key={tipo.id}
             lista={contenido}
             generoTitulo={tipo.plural.toUpperCase()}
