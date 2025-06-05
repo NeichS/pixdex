@@ -1,28 +1,18 @@
-import {
-  ContenidoAudiovisual,
-  ContenidoAudiovisualMapped,
-  contenidosAudiovisuales,
-} from "@/src/data/contenidosAudiovisuales";
-import {
-  getGeneroPorId,
-  IGeneroContenidoAudiovisual,
-} from "@/src/data/generosContenidoAudiovisual";
-import {
-  getTipoPorId,
-  ITipoContenidoAudiovisual,
-  tiposContenidoAudiovisual,
-} from "@/src/data/tiposContenidoAudiovisual";
+import { ContenidoAudiovisualMapped } from "@/src/data/contenidosAudiovisuales";
 import { View, StyleSheet } from "react-native";
 import { Generos } from "./Generos";
+import { useContext } from "react";
+import { ContextoContenidos } from "@/src/context/Contenidos";
 
 export function Contenido() {
+  const { getAllContenido, getAllTipos } = useContext(ContextoContenidos);
+
   return (
     <View style={styles.container}>
-      {tiposContenidoAudiovisual.map((tipo) => {
-        const contenido: ContenidoAudiovisualMapped[] = mapContenidoAudiovisual(
-          contenidosAudiovisuales.filter((c) => c.tipoId === tipo.id)
-        );
-
+      {
+      getAllTipos().map((tipo) => {
+        const contenido: ContenidoAudiovisualMapped[] =
+          getAllContenido().filter((c) => c.tipo.id === tipo.id);
         return (
           <Generos
             key={tipo.id}
@@ -34,32 +24,6 @@ export function Contenido() {
     </View>
   );
 }
-
-function mapContenidoAudiovisual(
-  contenido: ContenidoAudiovisual[]
-): ContenidoAudiovisualMapped[] {
-  const contenidoAudiovisualMapeado: ContenidoAudiovisualMapped[] =
-    contenido.map((contenido) => {
-      const tipo: ITipoContenidoAudiovisual = getTipoPorId(contenido.tipoId);
-      let temp: IGeneroContenidoAudiovisual[] = [];
-      contenido.generos.forEach((generoId) => {
-        temp.push(getGeneroPorId(generoId));
-      });
-      const generos: IGeneroContenidoAudiovisual[] = temp;
-
-      return {
-        id: contenido.id,
-        nombre: contenido.nombre,
-        descripcion: contenido.descripcion,
-        generos: generos,
-        tipo: tipo,
-        imageUrl: contenido.imageUrl,
-      } as ContenidoAudiovisualMapped;
-    });
-
-  return contenidoAudiovisualMapeado;
-}
-
 
 const styles = StyleSheet.create({
   container: {

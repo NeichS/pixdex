@@ -51,7 +51,8 @@ export function FilterModal({ visible, onClose }: PropsFilterModal) {
           <TextPressStart2P style={styles.greenTitle}>
             Content types
           </TextPressStart2P>
-          {/* deshardcodear esto jajaj */}
+          {/* deshardcodear esto jajaj */
+          }
           <View style={styles.checkBoxContainer}>
             <Checkbox
               style={styles.checkbox}
@@ -60,24 +61,6 @@ export function FilterModal({ visible, onClose }: PropsFilterModal) {
               color={checks[0] ? "#6E59A5" : undefined}
             />
             <Text style={styles.checkboxText}>TV Shows</Text>
-          </View>
-          <View style={styles.checkBoxContainer}>
-            <Checkbox
-              style={styles.checkbox}
-              value={checks[1]}
-              onValueChange={() => toggleCheck(1)}
-              color={checks[1] ? "#6E59A5" : undefined}
-            />
-            <Text style={styles.checkboxText}>Animes</Text>
-          </View>
-          <View style={styles.checkBoxContainer}>
-            <Checkbox
-              style={styles.checkbox}
-              value={checks[2]}
-              onValueChange={() => toggleCheck(2)}
-              color={checks[2] ? "#6E59A5" : undefined}
-            />
-            <Text style={styles.checkboxText}>Movies</Text>
           </View>
           <TextPressStart2P style={styles.greenTitle}>Genres</TextPressStart2P>
         </View>

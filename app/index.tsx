@@ -1,4 +1,10 @@
-import {HomeScreen} from '../src/screens/HomeScreen';
+import { HomeScreen } from "../src/screens/HomeScreen";
+import ContextoContenidosProvider  from "@/src/context/Contenidos";
 
-
-export default HomeScreen;
+export default function App() {
+  return (
+    <ContextoContenidosProvider>
+      <HomeScreen />
+    </ContextoContenidosProvider>
+  )
+}

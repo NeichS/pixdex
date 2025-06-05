@@ -3,7 +3,6 @@ import { Image } from "expo-image";
 import { ROUTES } from "@/src/navigation/routes";
 import { router } from "expo-router";
 import { ContenidoAudiovisualMapped } from "@/src/data/contenidosAudiovisuales";
-import { Tag } from "./Tag";
 import { TextPressStart2P } from "./TextPressStart2P";
 import { ListaGeneros } from "./ListaGeneros";
 
