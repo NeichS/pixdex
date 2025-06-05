@@ -109,7 +109,6 @@ export function FilterModal({ visible, onClose }: PropsFilterModal) {
               );
             })}
           </View>
-
           <View style={styles.botonesContainer}>
             <Button label="CANCEL" action={onClose} background="#403E43" />
             <Button label="APLY FILTERS" action={() => {}} />
