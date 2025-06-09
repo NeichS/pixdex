@@ -13,15 +13,12 @@ import { TextPressStart2P } from "./TextPressStart2P";
 import { useContext, useState } from "react";
 import { ContextoContenidos } from "@/src/context/Contenidos";
 import { Button } from "./Button";
-
+ 
 interface PropsFilterModal {
   visible: boolean;
   onClose: () => void;
 }
 
-/*iterar de vuelta los tipos de contenidos
-y tambien iterar todos los tags
-*/
 export function FilterModal({ visible, onClose }: PropsFilterModal) {
   const { getAllTipos, getAllGeneros } = useContext(ContextoContenidos);
   const [checks, setChecks] = useState<boolean[]>(
