@@ -3,17 +3,16 @@ import {
   Text,
   View,
   Pressable,
-  Alert,
   Modal,
-  TouchableOpacity,
 } from "react-native";
 import Checkbox from "expo-checkbox";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { TextPressStart2P } from "./TextPressStart2P";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { ContextoContenidos } from "@/src/context/Contenidos";
+import { ContextoFilter } from "@/src/context/Filter";
 import { Button } from "./Button";
- 
+
 interface PropsFilterModal {
   visible: boolean;
   onClose: () => void;
@@ -21,100 +20,119 @@ interface PropsFilterModal {
 
 export function FilterModal({ visible, onClose }: PropsFilterModal) {
   const { getAllTipos, getAllGeneros } = useContext(ContextoContenidos);
-  const [checks, setChecks] = useState<boolean[]>(
-    Array(getAllTipos().length).fill(false)
-  );
-  const [checksGeneros, setChecksGeneros] = useState<boolean[]>(
-    Array(getAllGeneros().length).fill(false)
-  );
+  const {
+    addTypeFilter,
+    removeTypeFilter,
+    addGenreFilter,
+    removeGenreFilter,
+    getTypeFilter,
+    getGenreFilter,
 
-  const toggleCheck = (index: number) => {
-    setChecks((prevChecks) => {
-      const nuevosChecks = prevChecks.map((valor, i) =>
-        i === index ? !valor : valor
-      );
-      return nuevosChecks;
+    // suponiendo que tenés funciones para limpiar filtros
+  } = useContext(ContextoFilter);
+
+  const tipos = getAllTipos();
+  const generos = getAllGeneros();
+
+  // Estado local de checks
+  const [checks, setChecks] = useState<boolean[]>([]);
+  const [checksGeneros, setChecksGeneros] = useState<boolean[]>([]);
+
+  // Sincronizo al abrir el modal o cuando cambian filtros en contexto
+  useEffect(() => {
+    setChecks(tipos.map((t) => getTypeFilter.includes(t.id)));
+    setChecksGeneros(generos.map((g) => getGenreFilter.includes(g.id)));
+  }, [visible, tipos, generos, getTypeFilter, getGenreFilter]);
+
+  // Función genérica para tipos
+  const toggleCheck = (index: number, tipoID: number) => {
+    setChecks((prev) => {
+      const nuevo = [...prev];
+      nuevo[index] = !prev[index];
+      // Ahora sí, según nuevo valor agrego o quito del contexto
+      if (nuevo[index]) addTypeFilter(tipoID);
+      else removeTypeFilter(tipoID);
+      return nuevo;
     });
   };
 
+  // Función genérica para géneros
+  const toggleCheckGenre = (index: number, generoID: number) => {
+    setChecksGeneros((prev) => {
+      const nuevo = [...prev];
+      nuevo[index] = !prev[index];
+      if (nuevo[index]) addGenreFilter(generoID);
+      else removeGenreFilter(generoID);
+      return nuevo;
+    });
+  };
+
+  // Si querés que “APPLY” resetee todo antes de volver a aplicar:
+  const onApply = () => {
+    // vuelvo a agregar con el estado local actual
+    checks.forEach((v, i) => { if (v) addTypeFilter(tipos[i].id) });
+    checksGeneros.forEach((v, i) => { if (v) addGenreFilter(generos[i].id) });
+    onClose();
+  };
+
   return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={visible}
-      onRequestClose={() => {
-        Alert.alert("Modal has been closed.");
-        onClose();
-      }}
-    >
+    <Modal animationType="slide" transparent visible={visible} onRequestClose={onClose}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
+          {/* Header */}
           <View style={styles.modalContent}>
-            <TextPressStart2P style={styles.title}>
-              Filter Content
-            </TextPressStart2P>
+            <TextPressStart2P style={styles.title}>Filtrar Contenido</TextPressStart2P>
             <Pressable onPress={onClose}>
-              <AntDesign
-                style={{ marginTop: -8 }}
-                name="closecircleo"
-                size={24}
-                color="#6E59A5"
-              />
+              <AntDesign name="closecircleo" size={24} color="#6E59A5" />
             </Pressable>
           </View>
-          <TextPressStart2P style={styles.greenTitle}>
-            Content types
-          </TextPressStart2P>
-          {getAllTipos().map((tipo, idx) => {
-            return (
-              <View key={idx} style={styles.checkBoxContainer}>
+
+          {/* Tipos */}
+          <TextPressStart2P style={styles.greenTitle}>Tipos de contenido</TextPressStart2P>
+          {tipos.map((tipo, idx) => (
+            <View key={tipo.id} style={styles.checkBoxContainer}>
+              <Checkbox
+                style={styles.checkbox}
+                value={checks[idx]}
+                onValueChange={() => toggleCheck(idx, tipo.id)}
+                color={checks[idx] ? "#6E59A5" : undefined}
+              />
+              <Text style={styles.checkboxText}>
+                {tipo.plural.charAt(0).toUpperCase() + tipo.plural.slice(1)}
+              </Text>
+            </View>
+          ))}
+
+          {/* Géneros */}
+          <TextPressStart2P style={styles.greenTitle}>Géneros</TextPressStart2P>
+          <View style={styles.genresContainer}>
+            {generos.map((g, idx) => (
+              <View key={g.id} style={styles.checkBoxContainer}>
                 <Checkbox
                   style={styles.checkbox}
-                  value={checks[idx]}
-                  onValueChange={() => toggleCheck(idx)}
-                  color={checks[idx] ? "#6E59A5" : undefined}
+                  value={checksGeneros[idx]}
+                  onValueChange={() => toggleCheckGenre(idx, g.id)}
+                  color={checksGeneros[idx] ? "#6E59A5" : undefined}
                 />
                 <Text style={styles.checkboxText}>
-                  {tipo.plural.charAt(0).toUpperCase() + tipo.plural.slice(1)}
+                  {g.nombre.charAt(0).toUpperCase() + g.nombre.slice(1)}
                 </Text>
               </View>
-            );
-          })}
-          <TextPressStart2P style={styles.greenTitle}>Genres</TextPressStart2P>
-          <View style={styles.genresContainer}>
-            {getAllGeneros().map((genero, idx) => {
-              return (
-                <View key={idx} style={styles.checkBoxContainer}>
-                  <Checkbox
-                    style={styles.checkbox}
-                    value={checksGeneros[idx]}
-                    onValueChange={() => {
-                      setChecksGeneros((prevChecks) => {
-                        const nuevosChecks = prevChecks.map((valor, i) =>
-                          i === idx ? !valor : valor
-                        );
-                        return nuevosChecks;
-                      });
-                    }}
-                    color={checksGeneros[idx] ? "#6E59A5" : undefined}
-                  />
-                  <Text style={styles.checkboxText}>
-                    {genero.nombre.charAt(0).toUpperCase() +
-                      genero.nombre.slice(1)}
-                  </Text>
-                </View>
-              );
-            })}
+            ))}
           </View>
+
+          {/* Botones */}
           <View style={styles.botonesContainer}>
-            <Button label="CANCEL" action={onClose} background="#403E43" />
-            <Button label="APLY FILTERS" action={() => {}} />
+            <Button label="CANCELAR" action={onClose} background="#403E43" />
+            <Button label="APLICAR FILTROS" action={onApply} />
           </View>
         </View>
       </View>
     </Modal>
   );
 }
+
+// ...Tus estilos ...
 
 const styles = StyleSheet.create({
   centeredView: {

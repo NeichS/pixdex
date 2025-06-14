@@ -11,6 +11,9 @@ interface IContextoFilter {
   removeGenreFilter: (genreID: number) => void;
   getTypeFilter: () => number[];
   getGenreFilter: () => number[];
+  clearTypeFilter: () => void;
+  clearGenreFilter: () => void;
+  getContenidoFiltered: () => void;
 }
 
 export const ContextoFilter = createContext<IContextoFilter>({
@@ -32,6 +35,15 @@ export const ContextoFilter = createContext<IContextoFilter>({
   removeGenreFilter: () => {
     throw new Error("ContextoFilter: removeGenreFilter no está inicializado");
   },
+  clearTypeFilter: () => {
+    throw new Error("ContextoFilter: clearTypeFilter no está inicializado");
+  },
+  clearGenreFilter: () => {
+    throw new Error("ContextoFilter: clearGenreFilter no está inicializado");
+  },
+  getContenidoFiltered: () => {
+    throw new Error("ContextoFilter: getContenidoFIltered no está inicializado");
+  },
 });
 
 export default function ContextoFilterProvider({ children }: PropsProvider) {
@@ -44,11 +56,13 @@ export default function ContextoFilterProvider({ children }: PropsProvider) {
 
   const addTypeFilter = (typeID: number) => {
     setTypeFilter((prev) => [...prev, typeID]);
+    console.log(typeFilter);
   };
 
   const removeTypeFilter = (typeID: number) => {
     setGenreFilter((prev) => prev.filter((id) => id !== typeID));
     // filter() devuelve un nuevo array sin los elementos que no pasen el test :contentReference[oaicite:1]{index=1}
+    console.log(typeFilter);
   };
 
   const getGenreFilter = () => {
@@ -57,14 +71,25 @@ export default function ContextoFilterProvider({ children }: PropsProvider) {
 
   const addGenreFilter = (genreID: number) => {
     setGenreFilter((prev) => [...prev, genreID]);
-    // Crea un nuevo array copiando el anterior y añadiendo genreID al final :contentReference[oaicite:0]{index=0}
+    console.log(genreFilter);
   };
 
   const removeGenreFilter = (genreID: number) => {
     setGenreFilter((prev) => prev.filter((id) => id !== genreID));
-    // filter() devuelve un nuevo array sin los elementos que no pasen el test :contentReference[oaicite:1]{index=1}
+    console.log(genreFilter);
   };
 
+  const clearGenreFilter = () => {
+    setGenreFilter([]);
+  };
+
+  const clearTypeFilter = () => {
+    setTypeFilter([]);
+  };
+
+  const getContenidoFiltered = () => {
+    // Aquí deberías implementar la lógica para filtrar los contenidos
+  }
   const valueContexto: IContextoFilter = {
     addTypeFilter,
     removeTypeFilter,
@@ -72,6 +97,9 @@ export default function ContextoFilterProvider({ children }: PropsProvider) {
     removeGenreFilter,
     getTypeFilter,
     getGenreFilter,
+    clearGenreFilter,
+    clearTypeFilter,
+    getContenidoFiltered,
   };
 
   return (
