@@ -2,49 +2,29 @@ import { Text, View, StyleSheet } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
 import { Image } from "expo-image";
 import { Button } from "./components/Button";
-import {
-  ContenidoAudiovisual,
-  ContenidoAudiovisualMapped,
-  contenidosAudiovisuales,
-} from "@/src/data/contenidosAudiovisuales";
-import {
-  getGeneroPorId,
-  IGeneroContenidoAudiovisual,
-} from "@/src/data/generosContenidoAudiovisual";
+import { ContenidoAudiovisualMapped } from "@/src/data/contenidosAudiovisuales";
 import { getTipoPorId } from "@/src/data/tiposContenidoAudiovisual";
 import { Tag } from "./components/Tag";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextPressStart2P } from "./components/TextPressStart2P";
 import { ListaGeneros } from "./components/ListaGeneros";
+import { useContext } from "react";
+import { ContextoContenidos } from "@/src/context/Contenidos";
 
-export function Detail() {
+export function DetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
 
-  const contenido: ContenidoAudiovisual = contenidosAudiovisuales.find(
-    (item) => item.id.toString() === id
+  const { getContenidoByID } = useContext(ContextoContenidos);
+  const contenido: ContenidoAudiovisualMapped = getContenidoByID(
+    Number(id)
   ) || {
     id: 0,
-    nombre: "",
-    descripcion: "",
-    generos: [],
-    tipoId: 0,
+    nombre: "Contenido no encontrado",
+    descripcion: "No se encontró el contenido solicitado.",
     imageUrl: "",
+    tipo: getTipoPorId(0),
+    generos: [],
   };
-
-  let temp: IGeneroContenidoAudiovisual[] = [];
-  contenido.generos.forEach((generoId) => {
-    temp.push(getGeneroPorId(generoId));
-  });
-  const generos: IGeneroContenidoAudiovisual[] = temp;
-
-  const contenidoMapped: ContenidoAudiovisualMapped = {
-    id: contenido.id,
-    nombre: contenido.nombre,
-    descripcion: contenido.descripcion,
-    generos: generos,
-    tipo: getTipoPorId(contenido.tipoId),
-    imageUrl: contenido.imageUrl,
-  } as ContenidoAudiovisualMapped;
 
   const handleBackToHome = () => {
     router.back();
@@ -67,16 +47,14 @@ export function Detail() {
           />
         </View>
         <TextPressStart2P style={styles.h1}>
-          {contenidoMapped.nombre}
+          {contenido.nombre}
         </TextPressStart2P>
         <View style={styles.tag}>
           <Tag key={1} index={1} text="Tv" />
         </View>
-        <Text style={{ color: "white" }}>{contenidoMapped.descripcion}</Text>
-        <TextPressStart2P style={styles.h2}>
-          Genres
-        </TextPressStart2P>
-        <ListaGeneros generos={contenidoMapped.generos}/>
+        <Text style={{ color: "white" }}>{contenido.descripcion}</Text>
+        <TextPressStart2P style={styles.h2}>Genres</TextPressStart2P>
+        <ListaGeneros generos={contenido.generos} />
       </View>
     </SafeAreaView>
   );
@@ -109,6 +87,7 @@ const styles = StyleSheet.create({
     marginTop: -20,
   },
   h2: {
-    color: "#5FD068", fontSize: 14 
+    color: "#5FD068",
+    fontSize: 14,
   },
 });

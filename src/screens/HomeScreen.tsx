@@ -1,9 +1,8 @@
-import { ScrollView, View, StyleSheet, Modal, Alert, Text } from "react-native";
+import { ScrollView, View, StyleSheet} from "react-native";
 import { CajaJuego } from "./components/CajaJuego";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextPressStart2P } from "./components/TextPressStart2P";
 import { Button } from "./components/Button";
-import { Pressable } from "react-native";
 import { Contenido } from "./components/Contenido";
 import { useState } from "react";
 import { FilterModal } from "./components/FilterModal";
@@ -36,11 +35,13 @@ export function HomeScreen() {
           title="Desafio del ahorcado"
           description="Adivina los títulos letra por letra ¿Cuántos puedes identificar?"
           bgColor="#6E59A5"
+          juegoUrl="/JuegoAhorcado"
         />
         <CajaJuego
           title="Pixel reveal"
           description="Identifica títulos desde imagenes pixeladas. ¡Pon a prueba tu memoria visual!"
           bgColor="#5FD068"
+          juegoUrl="/PixelReveal"
         />
       </View>
 

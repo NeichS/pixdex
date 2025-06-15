@@ -26,6 +26,7 @@ interface IContextoContenidos {
   getContenidoByTipo: (tipoId: number) => ContenidoAudiovisualMapped[];
   getAllTipos: () => ITipoContenidoAudiovisual[];
   getAllGeneros: () => IGeneroContenidoAudiovisual[];
+  getContenidoByID: (id: number) => ContenidoAudiovisualMapped | undefined;
 }
 
 // valores por defecto del contexto
@@ -45,6 +46,9 @@ export const ContextoContenidos = createContext<IContextoContenidos>({
   },
   getAllGeneros: () => {
     throw new Error("ContextoContenidos: getAllGeneros no está inicializado");
+  },
+  getContenidoByID: (id: number) => {
+    throw new Error("ContextoContenidos: getContenidoByID no está inicializado");
   },
 });
 
@@ -86,14 +90,20 @@ export default function ContextoContenidosProvider({ children }: PropsProvider) 
     return () => generosContenidoAudiovisual
   }, [contenidos]);
 
+  const getContenidoByID = (id: number): ContenidoAudiovisualMapped | undefined => {
+    const contenido = contenidos.find((c) => c.id === id);
+    return contenido ? mapContenido(contenido) : undefined;
+  };
+
   //  único value que se pasa al Provider
   const valueContexto: IContextoContenidos = {
     contenidos,
     mapContenido,
-    getAllContenido: getAllContenido,
+    getAllContenido,
     getContenidoByTipo,
-    getAllTipos: getAllTipos,
-    getAllGeneros: getAllGeneros,
+    getAllTipos,
+    getAllGeneros,
+    getContenidoByID
   };
 
   return (
