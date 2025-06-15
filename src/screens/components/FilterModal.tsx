@@ -22,13 +22,11 @@ export function FilterModal({ visible, onClose }: PropsFilterModal) {
   const { getAllTipos, getAllGeneros } = useContext(ContextoContenidos);
   const {
     addTypeFilter,
-    removeTypeFilter,
     addGenreFilter,
-    removeGenreFilter,
     getTypeFilter,
     getGenreFilter,
-
-    // suponiendo que tenés funciones para limpiar filtros
+    clearTypeFilter,
+    clearGenreFilter
   } = useContext(ContextoFilter);
 
   const tipos = getAllTipos();
@@ -40,40 +38,39 @@ export function FilterModal({ visible, onClose }: PropsFilterModal) {
 
   // Sincronizo al abrir el modal o cuando cambian filtros en contexto
   useEffect(() => {
-    setChecks(tipos.map((t) => getTypeFilter.includes(t.id)));
-    setChecksGeneros(generos.map((g) => getGenreFilter.includes(g.id)));
+    setChecks(tipos.map((t) => getTypeFilter().includes(t.id)));
+    setChecksGeneros(generos.map((g) => getGenreFilter().includes(g.id)));
   }, [visible, tipos, generos, getTypeFilter, getGenreFilter]);
 
-  // Función genérica para tipos
-  const toggleCheck = (index: number, tipoID: number) => {
+  const toggleCheck = (index: number) => {
     setChecks((prev) => {
       const nuevo = [...prev];
       nuevo[index] = !prev[index];
-      // Ahora sí, según nuevo valor agrego o quito del contexto
-      if (nuevo[index]) addTypeFilter(tipoID);
-      else removeTypeFilter(tipoID);
       return nuevo;
     });
   };
 
-  // Función genérica para géneros
-  const toggleCheckGenre = (index: number, generoID: number) => {
+  const toggleCheckGenre = (index: number) => {
     setChecksGeneros((prev) => {
       const nuevo = [...prev];
       nuevo[index] = !prev[index];
-      if (nuevo[index]) addGenreFilter(generoID);
-      else removeGenreFilter(generoID);
       return nuevo;
     });
   };
 
-  // Si querés que “APPLY” resetee todo antes de volver a aplicar:
   const onApply = () => {
-    // vuelvo a agregar con el estado local actual
-    checks.forEach((v, i) => { if (v) addTypeFilter(tipos[i].id) });
-    checksGeneros.forEach((v, i) => { if (v) addGenreFilter(generos[i].id) });
-    onClose();
-  };
+  clearGenreFilter();
+  clearTypeFilter();
+
+  checks.forEach((activo, i) => {
+    if (activo) addTypeFilter(tipos[i].id);
+  });
+  checksGeneros.forEach((activo, i) => {
+    if (activo) addGenreFilter(generos[i].id);
+  });
+
+  onClose();
+};
 
   return (
     <Modal animationType="slide" transparent visible={visible} onRequestClose={onClose}>
@@ -83,7 +80,7 @@ export function FilterModal({ visible, onClose }: PropsFilterModal) {
           <View style={styles.modalContent}>
             <TextPressStart2P style={styles.title}>Filtrar Contenido</TextPressStart2P>
             <Pressable onPress={onClose}>
-              <AntDesign name="closecircleo" size={24} color="#6E59A5" />
+              <AntDesign name="closecircleo" size={24} color="#6E59A5" style={ styles.modalClose}/>
             </Pressable>
           </View>
 
@@ -94,7 +91,7 @@ export function FilterModal({ visible, onClose }: PropsFilterModal) {
               <Checkbox
                 style={styles.checkbox}
                 value={checks[idx]}
-                onValueChange={() => toggleCheck(idx, tipo.id)}
+                onValueChange={() => toggleCheck(idx)}
                 color={checks[idx] ? "#6E59A5" : undefined}
               />
               <Text style={styles.checkboxText}>
@@ -111,7 +108,7 @@ export function FilterModal({ visible, onClose }: PropsFilterModal) {
                 <Checkbox
                   style={styles.checkbox}
                   value={checksGeneros[idx]}
-                  onValueChange={() => toggleCheckGenre(idx, g.id)}
+                  onValueChange={() => toggleCheckGenre(idx)}
                   color={checksGeneros[idx] ? "#6E59A5" : undefined}
                 />
                 <Text style={styles.checkboxText}>
@@ -131,8 +128,6 @@ export function FilterModal({ visible, onClose }: PropsFilterModal) {
     </Modal>
   );
 }
-
-// ...Tus estilos ...
 
 const styles = StyleSheet.create({
   centeredView: {
@@ -164,6 +159,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  modalClose: {
+    marginRight: -20,
+    marginTop: -5,
+  },
   title: {
     color: "white",
     textAlign: "left",
@@ -191,8 +190,8 @@ const styles = StyleSheet.create({
   },
   botonesContainer: {
     flexDirection: "row",
-    justifyContent: "flex-end",
-    width: "100%",
+    justifyContent: "space-between",
+    width: "auto",
     marginTop: 10,
     gap: 10,
   },

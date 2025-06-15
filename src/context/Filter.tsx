@@ -1,4 +1,5 @@
 import { ReactNode, createContext, useState } from "react";
+import { ContenidoAudiovisualMapped } from "../data/contenidosAudiovisuales";
 
 interface PropsProvider {
   children: ReactNode;
@@ -13,8 +14,9 @@ interface IContextoFilter {
   getGenreFilter: () => number[];
   clearTypeFilter: () => void;
   clearGenreFilter: () => void;
-  getContenidoFiltered: () => void;
-}
+  contenidoFiltered: (contenido : ContenidoAudiovisualMapped[]) => ContenidoAudiovisualMapped[];
+  isFiltered: () => boolean;
+ }
 
 export const ContextoFilter = createContext<IContextoFilter>({
   getGenreFilter: () => {
@@ -41,8 +43,11 @@ export const ContextoFilter = createContext<IContextoFilter>({
   clearGenreFilter: () => {
     throw new Error("ContextoFilter: clearGenreFilter no está inicializado");
   },
-  getContenidoFiltered: () => {
+  contenidoFiltered: () => {
     throw new Error("ContextoFilter: getContenidoFIltered no está inicializado");
+  },
+  isFiltered: () => {
+    throw new Error("ContextoFilter: isFiltered no está inicializado");
   },
 });
 
@@ -60,7 +65,7 @@ export default function ContextoFilterProvider({ children }: PropsProvider) {
   };
 
   const removeTypeFilter = (typeID: number) => {
-    setGenreFilter((prev) => prev.filter((id) => id !== typeID));
+    setTypeFilter((prev) => prev.filter((id) => id !== typeID));
     // filter() devuelve un nuevo array sin los elementos que no pasen el test :contentReference[oaicite:1]{index=1}
     console.log(typeFilter);
   };
@@ -87,8 +92,17 @@ export default function ContextoFilterProvider({ children }: PropsProvider) {
     setTypeFilter([]);
   };
 
-  const getContenidoFiltered = () => {
+  const isFiltered = () =>  {
+    return  typeFilter.length > 0 || genreFilter.length > 0;
+  }
+
+  const contenidoFiltered = (contenido : ContenidoAudiovisualMapped[]) => {
     // Aquí deberías implementar la lógica para filtrar los contenidos
+    return contenido.filter((item) => {
+      const typeMatch = typeFilter.length === 0 || typeFilter.includes(item.tipo.id);
+      const genreMatch = genreFilter.length === 0 || item.generos.some(genre => genreFilter.includes(genre.id));
+      return typeMatch && genreMatch;
+    })
   }
   const valueContexto: IContextoFilter = {
     addTypeFilter,
@@ -99,7 +113,8 @@ export default function ContextoFilterProvider({ children }: PropsProvider) {
     getGenreFilter,
     clearGenreFilter,
     clearTypeFilter,
-    getContenidoFiltered,
+    contenidoFiltered,
+    isFiltered,
   };
 
   return (

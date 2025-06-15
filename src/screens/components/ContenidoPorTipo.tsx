@@ -2,6 +2,8 @@ import { FlatList, StyleSheet, View } from "react-native";
 import { TarjetaProducto } from "./TarjetaProducto";
 import { ContenidoAudiovisualMapped } from "@/src/data/contenidosAudiovisuales";
 import { TextPressStart2P } from "./TextPressStart2P";
+import { useContext } from "react";
+import { ContextoFilter } from "@/src/context/Filter";
 
 interface ContenidoPorTipoProps {
   lista: ContenidoAudiovisualMapped[];
@@ -9,6 +11,14 @@ interface ContenidoPorTipoProps {
 }
 
 export function ContenidoPorTipo({ lista, generoTitulo }: ContenidoPorTipoProps) {
+  
+  const { contenidoFiltered } = useContext(ContextoFilter)
+  const listaFiltrada = contenidoFiltered(lista);
+  
+  if (listaFiltrada.length === 0) {
+    return null;
+  }
+  
   return (
     <View style={styles.container}>
       <View style={styles.generoContainer}>
@@ -18,7 +28,7 @@ export function ContenidoPorTipo({ lista, generoTitulo }: ContenidoPorTipoProps)
       </View>
       <FlatList
         contentContainerStyle={styles.listaProducto}
-        data={lista}
+        data={listaFiltrada}
         horizontal // habilita scroll horizontal
         keyExtractor={(item) => item.id.toString()} // cada item debe tener key única
         renderItem={({ item }) => <TarjetaProducto detail={item} />}

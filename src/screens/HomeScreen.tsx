@@ -7,11 +7,13 @@ import { Pressable } from "react-native";
 import { Contenido } from "./components/Contenido";
 import { useState } from "react";
 import { FilterModal } from "./components/FilterModal";
+import { useContext } from "react";
+import { ContextoFilter } from "@/src/context/Filter";
 
 export function HomeScreen() {
   
   const [modalVisible, setModalVisible] = useState(false);
-
+  const { isFiltered } = useContext(ContextoFilter);
   const openModal = () => {
     setModalVisible(true);  
   };
@@ -20,11 +22,13 @@ export function HomeScreen() {
     setModalVisible(false);
   };
 
+  const filterIconColor : string = isFiltered() ? "#5FD068" : "white";
+
   return (
     <SafeAreaView edges={["top", "bottom"]} style={styles.mainContainer}>
       <View style={styles.topContainer}>
         <TextPressStart2P style={styles.h1}>Pixdex</TextPressStart2P>
-        <Button label="FILTRAR" action={openModal} iconName="filter" />
+        <Button label="FILTRAR" action={openModal} iconName="filter" iconColor={filterIconColor} />
       </View>
       <FilterModal visible={modalVisible} onClose={onCloseModal}/>
       <View style={styles.cajaJuegoContainer}>

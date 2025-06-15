@@ -7,6 +7,7 @@ interface PropsButton {
   action: () => void;
   iconName?: React.ComponentProps<typeof Ionicons>["name"];
   background?: string;
+  iconColor?: string;
 }
 
 export function Button({
@@ -14,13 +15,14 @@ export function Button({
   action,
   iconName,
   background = "#6E59A5",
+  iconColor = "white",
 }: PropsButton) {
   return (
     <TouchableOpacity
       onPress={action}
       style={[styles.button, { backgroundColor: background }]}
     >
-      {iconName && <Ionicons name={iconName} color={"white"} size={20} />}
+      {iconName && <Ionicons name={iconName} color={iconColor} size={20} />}
       <View>
         <TextPressStart2P style={styles.buttonText}>{label}</TextPressStart2P>
       </View>
