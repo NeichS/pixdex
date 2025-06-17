@@ -15,7 +15,6 @@ export function GameInitSreen({
   gameDescription,
   gameScreen,
 }: GameProps) {
-  const { name } = useLocalSearchParams<{ name: string }>();
   return (
     <SafeAreaView edges={["top", "bottom"]} style={styles.mainContainer}>
       <View style={styles.topContainer}>
@@ -34,6 +33,7 @@ export function GameInitSreen({
           {gameDescription}
         </TextPressStart2P>
       </View>
+      
     </SafeAreaView>
   );
 }
