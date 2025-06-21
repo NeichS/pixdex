@@ -1,20 +1,10 @@
-import { View, StyleSheet } from "react-native";
-import { router, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
+import { StyleSheet, View, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { TextPressStart2P } from "./components/TextPressStart2P";
-import { Button } from "./components/Button";
-interface GameProps {
-  gameName: string;
-  gameDescription: string;
-  leaderboard?: string[]; //proximamente
-  gameScreen: string; // url del juego
-}
+import { Button } from "../../components/Button";
+import { TextPressStart2P } from "../../components/TextPressStart2P";
 
-export function GameInitSreen({
-  gameName,
-  gameDescription,
-  gameScreen,
-}: GameProps) {
+export function StartScreen() {
   return (
     <SafeAreaView edges={["top", "bottom"]} style={styles.mainContainer}>
       <View style={styles.topContainer}>
@@ -24,16 +14,15 @@ export function GameInitSreen({
       <View style={styles.gameContainer}>
         <TextPressStart2P
           style={{ fontSize: 24, color: "white", marginBottom: 10 }}
-        > 
-          {gameName}
+        >
+          <Text>Hangman</Text>
         </TextPressStart2P>
         <TextPressStart2P
           style={{ fontSize: 16, color: "white", textAlign: "center" }}
         >
-          {gameDescription}
+          Adivina la palabra oculta antes de quedarte sin vidas.
         </TextPressStart2P>
       </View>
-      
     </SafeAreaView>
   );
 }

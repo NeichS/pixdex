@@ -8,6 +8,8 @@ import { useState } from "react";
 import { FilterModal } from "./components/FilterModal";
 import { useContext } from "react";
 import { ContextoFilter } from "@/src/context/Filter";
+import { ROUTES } from "../navigation/routes";
+import { RelativePathString } from "expo-router";
 
 export function HomeScreen() {
   
@@ -35,13 +37,13 @@ export function HomeScreen() {
           title="Desafio del ahorcado"
           description="Adivina los títulos letra por letra ¿Cuántos puedes identificar?"
           bgColor="#6E59A5"
-          juegoUrl="/JuegoAhorcado"
+          juegoUrl={ROUTES.HANGMAN as RelativePathString}
         />
         <CajaJuego
           title="Pixel reveal"
           description="Identifica títulos desde imagenes pixeladas. ¡Pon a prueba tu memoria visual!"
           bgColor="#5FD068"
-          juegoUrl="/PixelReveal"
+          juegoUrl={ROUTES.HOME as RelativePathString}
         />
       </View>
 
