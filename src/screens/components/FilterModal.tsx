@@ -40,7 +40,7 @@ export function FilterModal({ visible, onClose }: PropsFilterModal) {
   useEffect(() => {
     setChecks(tipos.map((t) => getTypeFilter().includes(t.id)));
     setChecksGeneros(generos.map((g) => getGenreFilter().includes(g.id)));
-  }, [visible, tipos, generos, getTypeFilter, getGenreFilter]);
+  }, [tipos, generos, getTypeFilter, getGenreFilter]);
 
   const toggleCheck = (index: number) => {
     setChecks((prev) => {
@@ -73,7 +73,7 @@ export function FilterModal({ visible, onClose }: PropsFilterModal) {
 };
 
   return (
-    <Modal animationType="slide" transparent visible={visible} onRequestClose={onClose}>
+    <Modal animationType="slide" backdropColor = "rgba(0,0,0,0.25)" visible={visible} onRequestClose={onClose}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           {/* Header */}
