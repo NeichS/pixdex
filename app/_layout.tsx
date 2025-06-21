@@ -1,5 +1,10 @@
 import { Stack } from "expo-router";
+import ContextoPlayerNameProvider from "@/src/context/PlayerName";
 
 export default function RootLayout() {
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <ContextoPlayerNameProvider>
+      <Stack screenOptions={{ headerShown: false }} />;
+    </ContextoPlayerNameProvider>
+  );
 }
