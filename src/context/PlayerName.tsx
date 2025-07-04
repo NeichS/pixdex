@@ -12,7 +12,7 @@ interface IContextoPlayerName {
 }
 
 export const ContextoPlayerName = createContext<IContextoPlayerName>({
-  playerName: "",
+  playerName : "",
   getPlayerName: () => {
     throw new Error("PlayerNameContext: getPlayerName not initialized");
   },
