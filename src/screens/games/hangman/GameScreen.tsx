@@ -39,6 +39,7 @@ export function Game() {
   };
   const { getAllContenido } = useContext(ContextoContenidos);
   let contenidoRestante = getAllContenido();
+
   const getRandomizedContenido = (contenido: ContenidoAudiovisualMapped[]) => {
     const randomIndex = Math.floor(Math.random() * contenido.length);
     const randomContenido: ContenidoAudiovisualMapped = contenido[randomIndex];
@@ -46,10 +47,14 @@ export function Game() {
     return randomContenido;
   };
 
-const [randomContenido, setRandomContenido] =
-  useState<ContenidoAudiovisualMapped>(() =>
-    getRandomizedContenido(contenidoRestante)
-  );
+  const [randomContenido, setRandomContenido] =
+    useState<ContenidoAudiovisualMapped>(() =>
+      getRandomizedContenido(contenidoRestante)
+    );
+
+  let titleChars: string[] = randomContenido.nombre.split("");
+  const underscores = titleChars.map((c) => (c === " " ? " " : "_")).join(" ");
+
   return (
     <SafeAreaView edges={["top", "bottom"]} style={styles.mainContainer}>
       <View style={styles.topContainer}>
@@ -85,8 +90,16 @@ const [randomContenido, setRandomContenido] =
             accessibilityLabel="Imagen de la obra a adivinar"
           />
         </View>
-
-        <View style={styles.lettersContainer}></View>
+        <View style={styles.lettersContainer}>
+          <Text
+            style={styles.underscores}
+            numberOfLines={1} // una sola línea
+            adjustsFontSizeToFit // activa el auto-shrink
+            minimumFontScale={0.5} // hasta la mitad del tamaño original
+          >
+            {underscores}
+          </Text>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -137,10 +150,14 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   lettersContainer: {
-    backgroundColor: "#403E43",
-    flexDirection: "row",
-    alignSelf: "flex-end",
-    height: "10%",
     width: "100%",
+    height: "10%",
+    backgroundColor: "#403E43",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  underscores: {
+    color: "#FFF",
+    fontSize: 24,       // tamaño “base” máximo
   },
 });
