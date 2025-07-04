@@ -1,5 +1,5 @@
 import { createContext, useState, ReactNode } from "react";
-
+import { Text } from "react-native";
 
 interface PropsProvider {
   children: ReactNode;

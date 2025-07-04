@@ -4,7 +4,7 @@ import ContextoPlayerNameProvider from "@/src/context/PlayerName";
 export default function RootLayout() {
   return (
     <ContextoPlayerNameProvider>
-      <Stack screenOptions={{ headerShown: false }} />;
+      <Stack screenOptions={{ headerShown: false }} />
     </ContextoPlayerNameProvider>
   );
 }

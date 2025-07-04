@@ -1,11 +1,15 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ContextoPlayerName } from "@/src/context/PlayerName";
+import { ContextoContenidos } from "@/src/context/Contenidos";
 import { Text, StyleSheet, View } from "react-native";
-import { TextPressStart2P } from "@/src/screens/components/TextPressStart2P";
 import { Button } from "@/src/screens/components/Button";
 import { router } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { GuessLetterModal } from "./components/GuessLetterModal";
+import { GuessTitleModal } from "./components/GuessTitleModal";
+import { ContenidoAudiovisualMapped } from "@/src/data/contenidosAudiovisuales";
+import { Image } from "expo-image";
 
 export function Game() {
   const { getPlayerName } = useContext(ContextoPlayerName);
@@ -16,6 +20,36 @@ export function Game() {
     router.back();
   };
 
+  const [modalLetter, setModallLetter] = useState(false);
+  const openModalLetter = () => {
+    setModallLetter(true);
+  };
+
+  const onCloseModalLetter = () => {
+    setModallLetter(false);
+  };
+
+  const [modalTitle, setModalTitle] = useState(false);
+  const openModalTitle = () => {
+    setModalTitle(true);
+  };
+
+  const onCloseModalTitle = () => {
+    setModalTitle(false);
+  };
+  const { getAllContenido } = useContext(ContextoContenidos);
+  let contenidoRestante = getAllContenido();
+  const getRandomizedContenido = (contenido: ContenidoAudiovisualMapped[]) => {
+    const randomIndex = Math.floor(Math.random() * contenido.length);
+    const randomContenido: ContenidoAudiovisualMapped = contenido[randomIndex];
+    console.log("Random Contenido: ", randomContenido);
+    return randomContenido;
+  };
+
+const [randomContenido, setRandomContenido] =
+  useState<ContenidoAudiovisualMapped>(() =>
+    getRandomizedContenido(contenidoRestante)
+  );
   return (
     <SafeAreaView edges={["top", "bottom"]} style={styles.mainContainer}>
       <View style={styles.topContainer}>
@@ -34,9 +68,25 @@ export function Game() {
       </View>
       <View style={styles.gameContainer}>
         <View style={styles.actionButtons}>
-          <Button label="GUESS TITLE" action={() => {}} />
-          <Button label="GUESS LETTER" action={() => {}}/>
+          <Button label="GUESS TITLE" action={openModalTitle} />
+          <GuessTitleModal visible={modalTitle} onClose={onCloseModalTitle} />
+          <Button label="GUESS LETTER" action={openModalLetter} />
+          <GuessLetterModal
+            visible={modalLetter}
+            onClose={onCloseModalLetter}
+          />
         </View>
+
+        {/* imagen de la obra en flex 1 */}
+        <View accessibilityLabel="image" style={styles.imageContainer}>
+          <Image
+            source={{ uri: randomContenido.imageUrl }}
+            style={styles.image}
+            accessibilityLabel="Imagen de la obra a adivinar"
+          />
+        </View>
+
+        <View style={styles.lettersContainer}></View>
       </View>
     </SafeAreaView>
   );
@@ -73,10 +123,24 @@ const styles = StyleSheet.create({
     borderColor: "#403E43",
     borderWidth: 2,
     padding: 10,
-    alignItems: "center",
   },
   actionButtons: {
     flexDirection: "row",
     gap: 4,
-  }
+  },
+  imageContainer: {
+    flex: 1,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "contain",
+  },
+  lettersContainer: {
+    backgroundColor: "#403E43",
+    flexDirection: "row",
+    alignSelf: "flex-end",
+    height: "10%",
+    width: "100%",
+  },
 });
