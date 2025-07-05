@@ -10,6 +10,7 @@ import { GuessLetterModal } from "./components/GuessLetterModal";
 import { GuessTitleModal } from "./components/GuessTitleModal";
 import { ContenidoAudiovisualMapped } from "@/src/data/contenidosAudiovisuales";
 import { Image } from "expo-image";
+import { generateUnderscores, getRandomizedContenido } from "./utils/hangmanUtils";
 
 export function Game() {
   const { getPlayerName } = useContext(ContextoPlayerName);
@@ -40,20 +41,12 @@ export function Game() {
   const { getAllContenido } = useContext(ContextoContenidos);
   let contenidoRestante = getAllContenido();
 
-  const getRandomizedContenido = (contenido: ContenidoAudiovisualMapped[]) => {
-    const randomIndex = Math.floor(Math.random() * contenido.length);
-    const randomContenido: ContenidoAudiovisualMapped = contenido[randomIndex];
-    console.log("Random Contenido: ", randomContenido);
-    return randomContenido;
-  };
-
   const [randomContenido, setRandomContenido] =
     useState<ContenidoAudiovisualMapped>(() =>
       getRandomizedContenido(contenidoRestante)
     );
 
-  let titleChars: string[] = randomContenido.nombre.split("");
-  const underscores = titleChars.map((c) => (c === " " ? " " : "_")).join(" ");
+  const underscores = generateUnderscores(randomContenido.nombre);
 
   return (
     <SafeAreaView edges={["top", "bottom"]} style={styles.mainContainer}>
