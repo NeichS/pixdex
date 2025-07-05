@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useContext, useState } from "react";
+import { use, useContext, useState } from "react";
 import { ContextoPlayerName } from "@/src/context/PlayerName";
 import { ContextoContenidos } from "@/src/context/Contenidos";
 import { Text, StyleSheet, View } from "react-native";
@@ -10,16 +10,19 @@ import { GuessLetterModal } from "./components/GuessLetterModal";
 import { GuessTitleModal } from "./components/GuessTitleModal";
 import { ContenidoAudiovisualMapped } from "@/src/data/contenidosAudiovisuales";
 import { Image } from "expo-image";
-import { generateUnderscores, getRandomizedContenido } from "./utils/hangmanUtils";
+import {
+  generateUnderscores,
+  getRandomizedContenido,
+} from "./utils/hangmanUtils";
+import { ROUTES } from "@/src/navigation/routes";
 
 export function Game() {
-  const { getPlayerName } = useContext(ContextoPlayerName);
-
-  const playerName = getPlayerName();
-
   const handleBackToHome = () => {
     router.back();
   };
+
+  const { getPlayerName } = useContext(ContextoPlayerName);
+  const playerName = getPlayerName();
 
   const [modalLetter, setModallLetter] = useState(false);
   const openModalLetter = () => {
@@ -38,15 +41,101 @@ export function Game() {
   const onCloseModalTitle = () => {
     setModalTitle(false);
   };
+
   const { getAllContenido } = useContext(ContextoContenidos);
   let contenidoRestante = getAllContenido();
 
+  const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
+  const [score, setScore] = useState(0);
   const [randomContenido, setRandomContenido] =
     useState<ContenidoAudiovisualMapped>(() =>
       getRandomizedContenido(contenidoRestante)
     );
 
-  const underscores = generateUnderscores(randomContenido.nombre);
+  const [underscores, setUnderscores] = useState<string[]>(
+    generateUnderscores(randomContenido.nombre)
+  );
+
+  const MAX_LIVES = 5;
+  const [vidas, setVidas] = useState(5);
+
+  const handleLetterGuess = (letter: string) => {
+    if (randomContenido.nombre.toUpperCase().includes(letter)) {
+      // Actualizar los guiones bajos
+      const updatedUnderscores = underscores.map((char, index) => {
+        if (randomContenido.nombre[index].toUpperCase() === letter) {
+          return randomContenido.nombre[index];
+        }
+        return char;
+      });
+      console.log("Correct guess! Updated underscores:", updatedUnderscores);
+      setUnderscores(updatedUnderscores);
+      setGuessedLetters((prev) => [...prev, letter]);
+
+      // Verificar si se ha adivinado todo el título
+      if (!updatedUnderscores.includes("_")) {
+        //restar a contenidoRestante el contenido adivinado para evitar duplicados.
+        contenidoRestante = contenidoRestante.filter(
+          (contenido) => contenido.nombre !== randomContenido.nombre
+        );
+        setRandomContenido(getRandomizedContenido(contenidoRestante));
+        setUnderscores(generateUnderscores(randomContenido.nombre));
+        setGuessedLetters([]);
+        alert("Correct! You guessed the title!");
+        setScore((prev) => prev + 1);
+
+        if (contenidoRestante.length === 0) {
+          alert("Congratulations! You've guessed all titles!");
+          router.push(ROUTES.HANGMAN);
+        }
+      }
+    } else {
+      setVidas((v) => v - 1);
+
+      if (vidas == 1) {
+        alert("Game Over! Restarting the game.");
+        setRandomContenido(getRandomizedContenido(contenidoRestante));
+        setUnderscores(generateUnderscores(randomContenido.nombre));
+        setVidas(5);
+        setGuessedLetters([]);
+        setScore(0);
+      } else {
+        alert(`Incorrect guess! You have ${vidas - 1} lives left.`);
+      }
+    }
+  };
+
+  const handleTitleGuess = (title: string) => {
+    if (title.toUpperCase() === randomContenido.nombre.toUpperCase()) {
+      alert("Correct! You guessed the title!");
+      //restar a contenidoRestante el contenido adivinado
+      contenidoRestante = contenidoRestante.filter(
+        (contenido) => contenido.nombre !== randomContenido.nombre
+      );
+      setRandomContenido(getRandomizedContenido(contenidoRestante));
+      setUnderscores(generateUnderscores(randomContenido.nombre));
+      setGuessedLetters([]);
+
+      setScore((prev) => prev + 1);
+
+      if (contenidoRestante.length === 0) {
+        alert("Congratulations! You've guessed all titles!");
+        router.push(ROUTES.HANGMAN);
+      }
+    } else {
+      setVidas((v) => v - 1);
+      if (vidas == 1) {
+        alert("Game Over! Restarting the game.");
+        setRandomContenido(getRandomizedContenido(contenidoRestante));
+        setUnderscores(generateUnderscores(randomContenido.nombre));
+        setVidas(5);
+        setGuessedLetters([]);
+        setScore(0);
+      } else {
+        alert(`Incorrect guess! You have ${vidas - 1} lives left.`);
+      }
+    }
+  };
 
   return (
     <SafeAreaView edges={["top", "bottom"]} style={styles.mainContainer}>
@@ -54,24 +143,33 @@ export function Game() {
         <Button label="EXIT" action={handleBackToHome} iconName="arrow-back" />
         <View style={styles.gameStatus}>
           <View style={styles.hearts}>
-            <AntDesign name="heart" size={24} color="#6E59A5" />
-            <AntDesign name="heart" size={24} color="#6E59A5" />
-            <AntDesign name="heart" size={24} color="#6E59A5" />
-            <AntDesign name="heart" size={24} color="#6E59A5" />
-            <AntDesign name="heart" size={24} color="#6E59A5" />
+            {Array.from({ length: MAX_LIVES }).map((_, idx) => (
+              <AntDesign
+                key={idx}
+                name="heart"
+                size={24}
+                color={idx < vidas ? "#6E59A5" : "#888888"}
+              />
+            ))}
           </View>
           <Text style={styles.info}>Player : {playerName} </Text>
-          <Text style={styles.info}>Score : 0</Text>
+          <Text style={styles.info}>Score : {score}</Text>
         </View>
       </View>
       <View style={styles.gameContainer}>
         <View style={styles.actionButtons}>
           <Button label="GUESS TITLE" action={openModalTitle} />
-          <GuessTitleModal visible={modalTitle} onClose={onCloseModalTitle} />
+          <GuessTitleModal
+            visible={modalTitle}
+            onClose={onCloseModalTitle}
+            onGuess={handleTitleGuess}
+          />
           <Button label="GUESS LETTER" action={openModalLetter} />
           <GuessLetterModal
             visible={modalLetter}
             onClose={onCloseModalLetter}
+            onGuess={handleLetterGuess}
+            guessedLetters={guessedLetters}
           />
         </View>
 
@@ -151,6 +249,6 @@ const styles = StyleSheet.create({
   },
   underscores: {
     color: "#FFF",
-    fontSize: 24,       // tamaño “base” máximo
+    fontSize: 24, // tamaño “base” máximo
   },
 });

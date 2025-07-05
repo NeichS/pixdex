@@ -8,6 +8,7 @@ interface PropsButton {
   iconName?: React.ComponentProps<typeof Ionicons>["name"];
   background?: string;
   iconColor?: string;
+  disabled?: boolean;
 }
 
 export function Button({
@@ -16,15 +17,35 @@ export function Button({
   iconName,
   background = "#6E59A5",
   iconColor = "white",
+  disabled = false,
 }: PropsButton) {
+  // Selecciona el estilo de fondo: si está deshabilitado, ignora el color de background
+  const backgroundStyle = disabled
+    ? styles.buttonDisabledBackground
+    : { backgroundColor: background };
+
   return (
     <TouchableOpacity
       onPress={action}
-      style={[styles.button, { backgroundColor: background }]}
+      disabled={disabled}
+      activeOpacity={disabled ? 1 : 0.7}         // sin “feedback” cuando disabled
+      style={[
+        styles.button,
+        backgroundStyle,
+        disabled && styles.buttonDisabledOpacity  // baja opacidad
+      ]}
     >
-      {iconName && <Ionicons name={iconName} color={iconColor} size={20} />}
+      {iconName && (
+        <Ionicons
+          name={iconName}
+          color={disabled ? "#888" : iconColor}  // icono gris si disabled
+          size={20}
+        />
+      )}
       <View>
-        <TextPressStart2P style={styles.buttonText}>{label}</TextPressStart2P>
+        <TextPressStart2P style={styles.buttonText}>
+          {label}
+        </TextPressStart2P>
       </View>
     </TouchableOpacity>
   );
@@ -35,7 +56,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#6E59A5",
     padding: 5,
     paddingHorizontal: 10,
     borderWidth: 1,
@@ -43,8 +63,17 @@ const styles = StyleSheet.create({
     borderTopColor: "#9B87F5",
     gap: 8,
   },
+  // Este fondo se usará cuando disabled=true
+  buttonDisabledBackground: {
+    backgroundColor: "#403E43",
+    borderColor: "#2e2b33",
+  },
+  // Baja la opacidad general del botón
+  buttonDisabledOpacity: {
+    opacity: 0.5,
+  },
   buttonText: {
-    color: "white",
+    color: "#FFFFFF",
     textAlign: "center",
     fontSize: 12,
     marginTop: 5,

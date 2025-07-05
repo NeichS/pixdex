@@ -1,12 +1,22 @@
-import { Modal, Text, View, StyleSheet, TextInput } from "react-native";
+import { Modal, Text, View, StyleSheet } from "react-native";
 import { TextPressStart2P } from "@/src/screens/components/TextPressStart2P";
+import { Button } from "@/src/screens/components/Button";
 
 interface PropsModal {
   visible: boolean;
   onClose: () => void;
+  onGuess: (letter: string) => void;
+  guessedLetters: string[]; // opcional: para deshabilitar ya adivinadas
 }
 
-export function GuessLetterModal({ visible, onClose }: PropsModal) {
+const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+export function GuessLetterModal({
+  visible,
+  onClose,
+  onGuess,
+  guessedLetters = [],
+}: PropsModal) {
   return (
     <Modal
       animationType="slide"
@@ -19,6 +29,23 @@ export function GuessLetterModal({ visible, onClose }: PropsModal) {
           <TextPressStart2P>
             <Text style={styles.title}>Guess a Letter</Text>
           </TextPressStart2P>
+          <View style={styles.lettersGrid}>
+            {ALPHABET.map((letter) => {
+              const disabled = guessedLetters.includes(letter);
+              return (
+                <View key={letter} style={styles.letterButton}>
+                  <Button
+                    label={letter}
+                    action={() => onGuess(letter)}
+                    disabled={disabled} 
+                  />
+                </View>
+              );
+            })}
+          </View>
+          <View style={styles.closeButton}>
+            <Button label="CANCEL" action={onClose} />
+          </View>
         </View>
       </View>
     </Modal>
@@ -34,32 +61,31 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   content: {
-    width: "100%",
-    height: 150,
-    flexDirection: "column",
+    width: "90%",
     backgroundColor: "#1A1F2C",
-    borderBottomWidth: 1,
-    borderBottomColor: "#403E43",
-    alignItems: "center",
-    justifyContent: "center",
+    borderRadius: 8,
     padding: 20,
-    gap: 10,
+    gap: 12,
   },
   title: {
     color: "#FFFFFF",
-    textAlign: "center",
-    justifyContent: "center",
-    alignItems: "center",
     fontSize: 18,
+    textAlign: "center",
   },
-  input: {
-    borderColor: "#6E59A5",
-    borderWidth: 1,
-    height: 40,
-    width: "100%",
-    color: "#FFFFFF",
+
+  lettersGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    gap: 6,
   },
-  button: {
-    alignSelf: "flex-end",
+  letterButton: {
+    width: "14%",
+    marginVertical: 4,
+  },
+
+  closeButton: {
+    marginTop: 12,
+    alignSelf: "center",
   },
 });

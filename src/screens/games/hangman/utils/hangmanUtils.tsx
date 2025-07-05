@@ -1,7 +1,7 @@
 import { ContenidoAudiovisualMapped } from "@/src/data/contenidosAudiovisuales";
 
-export function generateUnderscores(word: string): string[] {
-  return word.split("").map(c => (c === " " ? " " : "_"));
+export function generateUnderscores(tituloContenido: string): string[] {
+  return tituloContenido.split("").map(c => (c === " " ? " " : "_"));
 }
 
 export function getRandomizedContenido(

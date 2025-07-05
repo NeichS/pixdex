@@ -1,13 +1,24 @@
 import { Modal, Text, View, StyleSheet, TextInput } from "react-native";
 import { TextPressStart2P } from "@/src/screens/components/TextPressStart2P";
 import { Button } from "@/src/screens/components/Button";
+import { useState } from "react";
 
 interface PropsModal {
   visible: boolean;
   onClose: () => void;
+  onGuess: (title: string) => void;
 }
 
-export function GuessTitleModal({ visible, onClose }: PropsModal) {
+export function GuessTitleModal({ visible, onClose, onGuess }: PropsModal) {
+  const [inputValue, setInputValue] = useState("");
+
+  const submitGuess = () => {
+    if (inputValue.trim() === "") return;    
+    onGuess(inputValue.trim());
+    setInputValue("");
+    onClose();
+  };
+
   return (
     <Modal
       animationType="slide"
@@ -18,13 +29,25 @@ export function GuessTitleModal({ visible, onClose }: PropsModal) {
       <View style={styles.centeredView}>
         <View style={styles.content}>
           <TextPressStart2P>
-            <Text style={styles.title}>Guess the title</Text>
+            <Text style={styles.title}>Guess the Title</Text>
           </TextPressStart2P>
+
           <TextInput
             style={styles.input}
+            placeholder="Escribe tu intento..."
+            placeholderTextColor="#AAA"
+            value={inputValue}
+            onChangeText={setInputValue}
+            autoCapitalize="words"
+            autoCorrect={false}
           />
+
           <View style={styles.button}>
-            <Button label="SUBMIT GUESS" action={() => {}} />
+            <Button
+              label="SUBMIT GUESS"
+              action={submitGuess}
+              disabled={inputValue.trim() === ""}
+            />
           </View>
         </View>
       </View>
@@ -41,23 +64,16 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   content: {
-    width: "100%",
-    height: 150,
-    flexDirection: "column",
+    width: "90%",
     backgroundColor: "#1A1F2C",
-    borderBottomWidth: 1,
-    borderBottomColor: "#403E43",
-    alignItems: "center",
-    justifyContent: "center",
+    borderRadius: 8,
     padding: 20,
-    gap: 10,
+    gap: 12,
   },
   title: {
     color: "#FFFFFF",
-    textAlign: "center",
-    justifyContent: "center",
-    alignItems: "center",
     fontSize: 18,
+    textAlign: "center",
   },
   input: {
     borderColor: "#6E59A5",
@@ -65,6 +81,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: "100%",
     color: "#FFFFFF",
+    paddingHorizontal: 8,
   },
   button: {
     alignSelf: "flex-end",

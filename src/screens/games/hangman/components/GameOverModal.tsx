@@ -11,15 +11,10 @@ interface PropsModal {
   onClose: () => void;
 }
 
-export function NameModal({ visible, onClose }: PropsModal) {
-  const { getPlayerName, setPlayerNameHandler } =
-    useContext(ContextoPlayerName);
-  const [inputName, setInputName] = useState(getPlayerName() || "");
-  const onStart = () => {
-    if (inputName.trim() === "") return;
-    setPlayerNameHandler(inputName);
+export function GameOverModal({ visible, onClose }: PropsModal) {
+  const onClickBackToHome = () => {
     onClose();
-    router.push(ROUTES.HANGMAN_GAME);
+    router.push(ROUTES.HOME);
   };
   return (
     <Modal
@@ -31,15 +26,10 @@ export function NameModal({ visible, onClose }: PropsModal) {
       <View style={styles.centeredView}>
         <View style={styles.content}>
           <TextPressStart2P>
-            <Text style={styles.title}>Enter Your Name</Text>
+            <Text style={styles.title}>Game over!</Text>
           </TextPressStart2P>
-          <TextInput
-            style={styles.input}
-            value={inputName}
-            onChangeText={setInputName}
-          />
           <View style={styles.button}>
-            <Button label="START GAME" action={onStart} />
+            <Button label="BACK TO HOME" action={onClickBackToHome} />
           </View>
         </View>
       </View>
