@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { use, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { ContextoPlayerName } from "@/src/context/PlayerName";
 import { ContextoContenidos } from "@/src/context/Contenidos";
 import { Text, StyleSheet, View } from "react-native";
@@ -15,6 +15,7 @@ import {
   getRandomizedContenido,
 } from "./utils/hangmanUtils";
 import { ROUTES } from "@/src/navigation/routes";
+import { GameOverModal } from "./components/GameOverModal";
 
 export function Game() {
   const handleBackToHome = () => {
@@ -40,6 +41,15 @@ export function Game() {
 
   const onCloseModalTitle = () => {
     setModalTitle(false);
+  };
+
+  const [gameOverModal, setGameOverModal] = useState(false);
+  const onCloseGameOverModal = () => {
+    setGameOverModal(false);
+  };
+
+  const openGameOverModal = () => {
+    setGameOverModal(true);
   };
 
   const { getAllContenido } = useContext(ContextoContenidos);
@@ -93,12 +103,13 @@ export function Game() {
       setVidas((v) => v - 1);
 
       if (vidas == 1) {
-        alert("Game Over! Restarting the game.");
+        openGameOverModal();
         setRandomContenido(getRandomizedContenido(contenidoRestante));
         setUnderscores(generateUnderscores(randomContenido.nombre));
         setVidas(5);
         setGuessedLetters([]);
         setScore(0);
+        onCloseModalLetter();
       } else {
         alert(`Incorrect guess! You have ${vidas - 1} lives left.`);
       }
@@ -125,12 +136,13 @@ export function Game() {
     } else {
       setVidas((v) => v - 1);
       if (vidas == 1) {
-        alert("Game Over! Restarting the game.");
+        openGameOverModal();
         setRandomContenido(getRandomizedContenido(contenidoRestante));
         setUnderscores(generateUnderscores(randomContenido.nombre));
         setVidas(5);
         setGuessedLetters([]);
         setScore(0);
+        onCloseModalTitle();
       } else {
         alert(`Incorrect guess! You have ${vidas - 1} lives left.`);
       }
@@ -170,6 +182,10 @@ export function Game() {
             onClose={onCloseModalLetter}
             onGuess={handleLetterGuess}
             guessedLetters={guessedLetters}
+          />
+          <GameOverModal
+            onClose={onCloseGameOverModal}
+            visible={gameOverModal}
           />
         </View>
 
@@ -249,6 +265,7 @@ const styles = StyleSheet.create({
   },
   underscores: {
     color: "#FFF",
-    fontSize: 24, // tamaño “base” máximo
+    fontSize: 24, 
+    letterSpacing: 4,
   },
 });

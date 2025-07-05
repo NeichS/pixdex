@@ -1,7 +1,5 @@
 import { Modal, Text, View, StyleSheet, TextInput } from "react-native";
 import { TextPressStart2P } from "@/src/screens/components/TextPressStart2P";
-import { useContext, useState } from "react";
-import { ContextoPlayerName } from "@/src/context/PlayerName";
 import { Button } from "@/src/screens/components/Button";
 import { ROUTES } from "@/src/navigation/routes";
 import { router } from "expo-router";
@@ -16,6 +14,7 @@ export function GameOverModal({ visible, onClose }: PropsModal) {
     onClose();
     router.push(ROUTES.HOME);
   };
+
   return (
     <Modal
       animationType="slide"
@@ -29,6 +28,7 @@ export function GameOverModal({ visible, onClose }: PropsModal) {
             <Text style={styles.title}>Game over!</Text>
           </TextPressStart2P>
           <View style={styles.button}>
+            <Button label="TRY AGAIN" action={onClose} />
             <Button label="BACK TO HOME" action={onClickBackToHome} />
           </View>
         </View>
@@ -72,6 +72,8 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   button: {
-    alignSelf: "flex-end",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: 10,
   },
 });
