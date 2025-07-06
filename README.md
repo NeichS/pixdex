@@ -1,50 +1,160 @@
-# Welcome to your Expo app 👋
+# Proyecto Expo
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Este repositorio contiene una aplicación desarrollada con **Expo** y **React Native**. A continuación se detallan los pasos para instalar dependencias, configurar variables de entorno y ejecutar el proyecto.
 
-## Get started
+---
 
-1. Install dependencies
+## Requisitos previos
+
+* Node.js (versión 16 o superior)
+* npm o Yarn
+* Expo CLI instalado globalmente:
+
+  ```bash
+  npm install -g expo-cli
+  # o si usas Yarn:
+  yarn global add expo-cli
+  ```
+* Acceso a un emulador o dispositivo físico con Expo Go instalado
+
+---
+
+## Instalación
+
+1. Clona el repositorio:
+
+   ```bash
+   git clone https://github.com/TU_USUARIO/tu-proyecto-expo.git
+   cd tu-proyecto-expo
+   ```
+
+2. Instala las dependencias:
 
    ```bash
    npm install
+   # o con Yarn:
+   yarn install
    ```
 
-2. Start the app
+3. Copia el archivo de variables de entorno:
 
    ```bash
-   npx expo start
+   cp .env.sample .env
    ```
 
-In the output, you'll find options to open the app in a
+   * Edita el archivo `.env` según tus valores locales (por ejemplo `API_URL`, claves, etc.).
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Variables de entorno
 
-## Get a fresh project
+El proyecto utiliza un archivo `.env` en la raíz. Asegúrate de definir al menos las siguientes variables:
 
-When you're ready, run:
-
-```bash
-npm run reset-project
+```ini
+# .env
+API_URL=http://192.168.x.x:8081
+# Otras variables que necesite tu proyecto...
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## Ejecutar la aplicación
 
-To learn more about developing your project with Expo, look at the following resources:
+* Para iniciar en modo desarrollo:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+  ```bash
+  expo start
+  ```
 
-## Join the community
+  Se abrirá Expo DevTools en tu navegador.
 
-Join our community of developers creating universal apps.
+* Para probar en un emulador Android:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+  ```bash
+  expo run:android
+  ```
+
+* Para probar en un emulador iOS (macOS):
+
+  ```bash
+  expo run:ios
+  ```
+
+* Para probar en un dispositivo físico, escanea el QR con Expo Go o usa el modo Tunnel:
+
+  ```bash
+  expo start --tunnel
+  ```
+
+---
+
+## Construir para producción
+
+* Android (APK/AAB):
+
+  ```bash
+  expo build:android
+  ```
+
+* iOS (IPA):
+
+  ```bash
+  expo build:ios
+  ```
+
+> Para más detalles sobre opciones de construcción, consulta la documentación oficial de Expo.
+
+---
+
+## Estructura del proyecto
+
+```
+app/
+├── api/
+│   ├── contenidos+api.ts
+│   ├── generos+api.ts
+│   └── tipos+api.ts
+├── detail/
+│   └── [id].tsx
+├── games/
+│   └── hangman/
+│       ├── game.tsx
+│       └── start-screen.tsx
+├── index.tsx
+└── _layout.tsx
+
+src/
+├── common/
+│   └── constants.ts
+├── context/
+│   ├── Contenidos.tsx
+│   ├── Filter.tsx
+│   └── PlayerName.tsx
+├── data/
+│   ├── contenidosAudiovisuales.ts
+│   ├── generosContenidoAudiovisual.ts
+│   └── tiposContenidoAudiovisual.ts
+├── navigation/
+│   └── routes.tsx
+├── screens/
+│   ├── components/
+│   │   ├── Button.tsx
+│   │   ├── CajaJuego.tsx
+│   │   ├── ContenidoPorTipo.tsx
+│   │   ├── Contenido.tsx
+│   │   ├── FilterModal.tsx
+│   │   ├── ListaGeneros.tsx
+│   │   ├── Tag.tsx
+│   │   ├── TarjetaProducto.tsx
+│   │   └── TextPressStart2P.tsx
+│   ├── DetailScreen.tsx
+│   ├── games/
+│   │   └── hangman/
+│   │       ├── components/
+│   │       ├── GameScreen.tsx
+│   │       └── utils/
+│   └── HomeScreen.tsx
+└── services/
+    └── servicios.ts
+```
+
