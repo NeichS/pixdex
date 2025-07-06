@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ContextoPlayerName } from "@/src/context/PlayerName";
 import { ContextoContenidos } from "@/src/context/Contenidos";
 import { Text, StyleSheet, View } from "react-native";
@@ -21,94 +21,132 @@ export function Game() {
   const handleBackToHome = () => {
     router.back();
   };
-
-  const { getPlayerName } = useContext(ContextoPlayerName);
-  const playerName = getPlayerName();
-
   const [modalLetter, setModallLetter] = useState(false);
   const openModalLetter = () => {
     setModallLetter(true);
   };
-
   const onCloseModalLetter = () => {
     setModallLetter(false);
   };
-
   const [modalTitle, setModalTitle] = useState(false);
   const openModalTitle = () => {
     setModalTitle(true);
   };
-
   const onCloseModalTitle = () => {
     setModalTitle(false);
   };
-
   const [gameOverModal, setGameOverModal] = useState(false);
   const onCloseGameOverModal = () => {
     setGameOverModal(false);
   };
-
   const openGameOverModal = () => {
     setGameOverModal(true);
   };
 
-  const { getAllContenido } = useContext(ContextoContenidos);
-  let contenidoRestante = getAllContenido();
-
-  const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
-  const [score, setScore] = useState(0);
-  const [randomContenido, setRandomContenido] =
-    useState<ContenidoAudiovisualMapped>(() =>
-      getRandomizedContenido(contenidoRestante)
-    );
-
-  const [underscores, setUnderscores] = useState<string[]>(
-    generateUnderscores(randomContenido.nombre)
-  );
+  const { getPlayerName } = useContext(ContextoPlayerName);
+  const playerName = getPlayerName();
 
   const MAX_LIVES = 5;
-  const [vidas, setVidas] = useState(5);
+
+  const { getAllContenido } = useContext(ContextoContenidos);
+
+  // Estados para manejar el contenido restante y el contenido actual
+  const [contenidoRestante, setContenidoRestante] = useState<
+    ContenidoAudiovisualMapped[]
+  >([]);
+  const [randomContenido, setRandomContenido] =
+    useState<ContenidoAudiovisualMapped | null>(null);
+  const [underscores, setUnderscores] = useState<string[]>([]);
+  const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
+  const [score, setScore] = useState(0);
+  const [vidas, setVidas] = useState(MAX_LIVES);
+  const [gameInitialized, setGameInitialized] = useState(false);
+
+  // Inicializar cuando lleguen los datos - AQUÍ ESTÁ EL CAMBIO CLAVE
+  useEffect(() => {
+    const contenidos = getAllContenido();
+    
+    // Verificar si los datos están disponibles y el juego no ha sido inicializado
+    if (contenidos && contenidos.length > 0 && !gameInitialized) {
+      console.log("Inicializando juego con contenidos:", contenidos.length);
+      
+      // Inicializar contenidoRestante con todos los contenidos
+      setContenidoRestante(contenidos);
+
+      // Elegir el primer contenido aleatorio
+      const initialContenido = getRandomizedContenido(contenidos);
+      console.log("Contenido inicial seleccionado:", initialContenido?.nombre);
+      
+      setRandomContenido(initialContenido);
+      setUnderscores(generateUnderscores(initialContenido.nombre));
+      setGameInitialized(true);
+    }
+  }, [getAllContenido, gameInitialized]); // Agregar getAllContenido como dependencia
+
+
+  // Función para pasar al siguiente contenido
+  const nextContent = () => {
+    if (!randomContenido) return;
+
+    // Remover el contenido actual del contenido restante
+    const newContenidoRestante = contenidoRestante.filter(
+      (contenido) => contenido.nombre !== randomContenido.nombre
+    );
+
+    setContenidoRestante(newContenidoRestante);
+
+    if (newContenidoRestante.length === 0) {
+      alert("Congratulations! You've guessed all titles!");
+      router.push(ROUTES.HANGMAN);
+      return;
+    }
+
+    const newRandomContenido = getRandomizedContenido(newContenidoRestante);
+    setRandomContenido(newRandomContenido);
+    setUnderscores(generateUnderscores(newRandomContenido.nombre));
+    setGuessedLetters([]);
+  };
+
+  // Función para reiniciar el juego (game over)
+  const resetGame = () => {
+    const contenidos = getAllContenido();
+    setContenidoRestante(contenidos);
+    const newRandomContenido = getRandomizedContenido(contenidos);
+    setRandomContenido(newRandomContenido);
+    setUnderscores(generateUnderscores(newRandomContenido.nombre));
+    setVidas(MAX_LIVES);
+    setGuessedLetters([]);
+    setScore(0);
+  };
 
   const handleLetterGuess = (letter: string) => {
+    if (!randomContenido) return;
+
     if (randomContenido.nombre.toUpperCase().includes(letter)) {
-      // Actualizar los guiones bajos
       const updatedUnderscores = underscores.map((char, index) => {
         if (randomContenido.nombre[index].toUpperCase() === letter) {
           return randomContenido.nombre[index];
         }
         return char;
       });
-      console.log("Correct guess! Updated underscores:", updatedUnderscores);
+
       setUnderscores(updatedUnderscores);
       setGuessedLetters((prev) => [...prev, letter]);
 
       // Verificar si se ha adivinado todo el título
       if (!updatedUnderscores.includes("_")) {
-        //restar a contenidoRestante el contenido adivinado para evitar duplicados.
-        contenidoRestante = contenidoRestante.filter(
-          (contenido) => contenido.nombre !== randomContenido.nombre
-        );
-        setRandomContenido(getRandomizedContenido(contenidoRestante));
-        setUnderscores(generateUnderscores(randomContenido.nombre));
-        setGuessedLetters([]);
         alert("Correct! You guessed the title!");
         setScore((prev) => prev + 1);
-
-        if (contenidoRestante.length === 0) {
-          alert("Congratulations! You've guessed all titles!");
-          router.push(ROUTES.HANGMAN);
-        }
+        nextContent(); // Usar la función para pasar al siguiente
       }
+
+      onCloseModalLetter();
     } else {
       setVidas((v) => v - 1);
 
-      if (vidas == 1) {
+      if (vidas === 1) {
         openGameOverModal();
-        setRandomContenido(getRandomizedContenido(contenidoRestante));
-        setUnderscores(generateUnderscores(randomContenido.nombre));
-        setVidas(5);
-        setGuessedLetters([]);
-        setScore(0);
+        resetGame();
         onCloseModalLetter();
       } else {
         alert(`Incorrect guess! You have ${vidas - 1} lives left.`);
@@ -117,31 +155,17 @@ export function Game() {
   };
 
   const handleTitleGuess = (title: string) => {
+    if (!randomContenido) return;
+
     if (title.toUpperCase() === randomContenido.nombre.toUpperCase()) {
       alert("Correct! You guessed the title!");
-      //restar a contenidoRestante el contenido adivinado
-      contenidoRestante = contenidoRestante.filter(
-        (contenido) => contenido.nombre !== randomContenido.nombre
-      );
-      setRandomContenido(getRandomizedContenido(contenidoRestante));
-      setUnderscores(generateUnderscores(randomContenido.nombre));
-      setGuessedLetters([]);
-
       setScore((prev) => prev + 1);
-
-      if (contenidoRestante.length === 0) {
-        alert("Congratulations! You've guessed all titles!");
-        router.push(ROUTES.HANGMAN);
-      }
+      nextContent(); // Usar la función para pasar al siguiente
     } else {
       setVidas((v) => v - 1);
-      if (vidas == 1) {
+      if (vidas === 1) {
         openGameOverModal();
-        setRandomContenido(getRandomizedContenido(contenidoRestante));
-        setUnderscores(generateUnderscores(randomContenido.nombre));
-        setVidas(5);
-        setGuessedLetters([]);
-        setScore(0);
+        resetGame(); // Usar la función para reiniciar
         onCloseModalTitle();
       } else {
         alert(`Incorrect guess! You have ${vidas - 1} lives left.`);
@@ -191,11 +215,13 @@ export function Game() {
 
         {/* imagen de la obra en flex 1 */}
         <View accessibilityLabel="image" style={styles.imageContainer}>
-          <Image
-            source={{ uri: randomContenido.imageUrl }}
-            style={styles.image}
-            accessibilityLabel="Imagen de la obra a adivinar"
-          />
+          {randomContenido && (
+            <Image
+              source={{ uri: randomContenido.imageUrl }}
+              style={styles.image}
+              accessibilityLabel="Imagen de la obra a adivinar"
+            />
+          )}
         </View>
         <View style={styles.lettersContainer}>
           <Text

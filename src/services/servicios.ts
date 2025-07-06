@@ -4,15 +4,12 @@ import { ITipoContenidoAudiovisual } from "@/src/data/tiposContenidoAudiovisual"
 import { IGeneroContenidoAudiovisual } from "../data/generosContenidoAudiovisual";
 
 export async function getContenidos(): Promise<ContenidoAudiovisual[]> {
-  console.log("LLAMANDO getContenidos a", `${API_URL}/contenidos`);
   const res = await fetch(`${API_URL}/contenidos`);
-  console.log("RESPUESTA STATUS", res.status);
   if (!res.ok) {
     console.error("DETAILS:", await res.text());
     throw new Error(`Error ${res.status} al obtener contenidos`);
   }
   const json = await res.json();
-  console.log("JSON parseado OK, elementos:", json.length);
   return json;
 }
 

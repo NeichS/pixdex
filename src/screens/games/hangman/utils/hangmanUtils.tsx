@@ -7,6 +7,7 @@ export function generateUnderscores(tituloContenido: string): string[] {
 export function getRandomizedContenido(
   contenido: ContenidoAudiovisualMapped[]
 ): ContenidoAudiovisualMapped {
+  
   const randomIndex = Math.floor(Math.random() * contenido.length);
   const randomContenido: ContenidoAudiovisualMapped = contenido[randomIndex];
   console.log("Random Contenido: ", randomContenido);
