@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
   },
   underscores: {
     color: "#FFF",
-    fontSize: 24, 
+    fontSize: 24,
     letterSpacing: 4,
   },
 });
