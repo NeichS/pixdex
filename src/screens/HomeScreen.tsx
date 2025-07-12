@@ -1,4 +1,4 @@
-import { ScrollView, View, StyleSheet} from "react-native";
+import { ScrollView, View, StyleSheet, Text } from "react-native";
 import { CajaJuego } from "./components/CajaJuego";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextPressStart2P } from "./components/TextPressStart2P";
@@ -10,28 +10,33 @@ import { useContext } from "react";
 import { ContextoFilter } from "@/src/context/Filter";
 import { ROUTES } from "../navigation/routes";
 import { RelativePathString } from "expo-router";
+import { signOut } from "../lib/supabase";
 
 export function HomeScreen() {
-  
   const [modalVisible, setModalVisible] = useState(false);
   const { isFiltered } = useContext(ContextoFilter);
   const openModal = () => {
-    setModalVisible(true);  
+    setModalVisible(true);
   };
 
   const onCloseModal = () => {
     setModalVisible(false);
   };
 
-  const filterIconColor : string = isFiltered() ? "#5FD068" : "white";
+  const filterIconColor: string = isFiltered() ? "#5FD068" : "white";
 
   return (
     <SafeAreaView edges={["top", "bottom"]} style={styles.mainContainer}>
       <View style={styles.topContainer}>
         <TextPressStart2P style={styles.h1}>Pixdex</TextPressStart2P>
-        <Button label="FILTRAR" action={openModal} iconName="filter" iconColor={filterIconColor} />
+        <Button
+          label="FILTRAR"
+          action={openModal}
+          iconName="filter"
+          iconColor={filterIconColor}
+        />
       </View>
-      <FilterModal visible={modalVisible} onClose={onCloseModal}/>
+      <FilterModal visible={modalVisible} onClose={onCloseModal} />
       <View style={styles.cajaJuegoContainer}>
         <CajaJuego
           title="Desafio del ahorcado"
@@ -50,6 +55,10 @@ export function HomeScreen() {
       <View style={styles.contenidoContainer}>
         <ScrollView contentContainerStyle={styles.scrollViewContenido}>
           <Contenido />
+
+          <View style={styles.logoutButton}>
+            <Button action={signOut} label="LOG OUT" iconName="power" />
+          </View>
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -87,5 +96,11 @@ const styles = StyleSheet.create({
   scrollViewContenido: {
     gap: 15,
     paddingBottom: 70,
+  },
+  logoutButton: {
+    height: 50,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    marginBottom: 20,
   },
 });
