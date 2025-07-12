@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { Alert, StyleSheet, View, AppState } from 'react-native'
 import { supabase } from '../lib/supabase'
-import { Button, Input } from '@rneui/themed'
+import { Input } from '@rneui/themed'
+import { Button } from './components/Button'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
@@ -47,7 +49,7 @@ export function LoginScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView edges={["top", "bottom"]} style={styles.container}>
       <View style={[styles.verticallySpaced, styles.mt20]}>
         <Input
           label="Email"
@@ -70,19 +72,21 @@ export function LoginScreen() {
         />
       </View>
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Button title="Sign in" disabled={loading} onPress={() => signInWithEmail()} />
+        <Button label="SIGN IN" disabled={loading} action={() => signInWithEmail()} />
       </View>
       <View style={styles.verticallySpaced}>
-        <Button title="Sign up" disabled={loading} onPress={() => signUpWithEmail()} />
+        <Button label="SIGN UP" disabled={loading} action={() => signUpWithEmail()} />
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#1A1F2C",
     marginTop: 40,
     padding: 12,
+    flex: 1,
   },
   verticallySpaced: {
     paddingTop: 4,
