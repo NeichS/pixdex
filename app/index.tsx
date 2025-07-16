@@ -23,9 +23,7 @@ export default function App() {
   return (
     <ContextoContenidosProvider>
       <ContextoFilterProvider>
-        <ContextoPlayerNameProvider>
           {session && session.user ? <HomeScreen /> : <LoginScreen />}
-        </ContextoPlayerNameProvider>
       </ContextoFilterProvider>
     </ContextoContenidosProvider>
   );
