@@ -4,7 +4,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "../../components/Button";
 import { TextPressStart2P } from "../../components/TextPressStart2P";
 import { useState } from "react";
-import { NameModal } from "./components/NameModal";
+import { ROUTES } from "@/src/navigation/routes";
+
 
 export function StartScreen() {
 
@@ -17,6 +18,9 @@ export function StartScreen() {
       setModalVisible(false);
     };
 
+    const startGame = () => {
+      router.push(ROUTES.HANGMAN_GAME);
+    }
   return (
     <SafeAreaView edges={["top", "bottom"]} style={styles.mainContainer}>
       <View style={styles.topContainer}>
@@ -34,8 +38,8 @@ export function StartScreen() {
           Guess the titles of popular TV shows, movies, and anime one letter at
           a time. You have 5 lives - can you get the highest score?
         </Text>
-        <Button label="START GAME" action={openModal} />
-        <NameModal visible={modalVisible} onClose={onCloseModal} />
+        <Button label="START GAME" action={startGame} />
+        {/* <NameModal visible={modalVisible} onClose={onCloseModal} /> */}
       </View>
     </SafeAreaView>
   );

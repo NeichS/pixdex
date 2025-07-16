@@ -62,18 +62,14 @@ export function Game() {
   const [vidas, setVidas] = useState(MAX_LIVES);
   const [gameInitialized, setGameInitialized] = useState(false);
 
-  // Inicializar cuando lleguen los datos - AQUÍ ESTÁ EL CAMBIO CLAVE
   useEffect(() => {
     const contenidos = getAllContenido();
     
-    // Verificar si los datos están disponibles y el juego no ha sido inicializado
     if (contenidos && contenidos.length > 0 && !gameInitialized) {
       console.log("Inicializando juego con contenidos:", contenidos.length);
       
-      // Inicializar contenidoRestante con todos los contenidos
       setContenidoRestante(contenidos);
 
-      // Elegir el primer contenido aleatorio
       const initialContenido = getRandomizedContenido(contenidos);
       console.log("Contenido inicial seleccionado:", initialContenido?.nombre);
       
@@ -81,7 +77,7 @@ export function Game() {
       setUnderscores(generateUnderscores(initialContenido.nombre));
       setGameInitialized(true);
     }
-  }, [getAllContenido, gameInitialized]); // Agregar getAllContenido como dependencia
+  }, [getAllContenido, gameInitialized]);
 
 
   // Función para pasar al siguiente contenido
@@ -210,6 +206,7 @@ export function Game() {
           <GameOverModal
             onClose={onCloseGameOverModal}
             visible={gameOverModal}
+            score={score}
           />
         </View>
 
