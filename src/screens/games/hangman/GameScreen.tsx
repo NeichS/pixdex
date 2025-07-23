@@ -58,25 +58,26 @@ export function Game() {
     useState<ContenidoAudiovisualMapped | null>(null);
   const [underscores, setUnderscores] = useState<string[]>([]);
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
-  const [score, setScore] = useState(0);
+
+  const [score, setScore] = useState<number>(0);
+  const [gameOverScore, setGameOverScore] = useState<number>(0);
+
   const [vidas, setVidas] = useState(MAX_LIVES);
   const [gameInitialized, setGameInitialized] = useState(false);
 
   useEffect(() => {
     const contenidos = getAllContenido();
-    
+
     if (contenidos && contenidos.length > 0 && !gameInitialized) {
-      
       setContenidoRestante(contenidos);
 
       const initialContenido = getRandomizedContenido(contenidos);
-      
+
       setRandomContenido(initialContenido);
       setUnderscores(generateUnderscores(initialContenido.nombre));
       setGameInitialized(true);
     }
   }, [getAllContenido, gameInitialized]);
-
 
   // Función para pasar al siguiente contenido
   const nextContent = () => {
@@ -113,6 +114,20 @@ export function Game() {
     setScore(0);
   };
 
+  const triggerGameOver = () => {
+    setGameOverScore(score); 
+    setGameOverModal(true); 
+ 
+    const contenidos = getAllContenido();
+    setContenidoRestante(contenidos);
+    const newRandom = getRandomizedContenido(contenidos);
+    setRandomContenido(newRandom);
+    setUnderscores(generateUnderscores(newRandom.nombre));
+    setVidas(MAX_LIVES);
+    setGuessedLetters([]);
+    setScore(0);
+  };
+
   const handleLetterGuess = (letter: string) => {
     if (!randomContenido) return;
 
@@ -139,8 +154,7 @@ export function Game() {
       setVidas((v) => v - 1);
 
       if (vidas === 1) {
-        openGameOverModal();
-        resetGame();
+        triggerGameOver();
         onCloseModalLetter();
       } else {
         alert(`Incorrect guess! You have ${vidas - 1} lives left.`);
@@ -158,8 +172,7 @@ export function Game() {
     } else {
       setVidas((v) => v - 1);
       if (vidas === 1) {
-        openGameOverModal();
-        resetGame(); // Usar la función para reiniciar
+        triggerGameOver();
         onCloseModalTitle();
       } else {
         alert(`Incorrect guess! You have ${vidas - 1} lives left.`);
@@ -204,7 +217,7 @@ export function Game() {
           <GameOverModal
             onClose={onCloseGameOverModal}
             visible={gameOverModal}
-            score={score}
+            score={gameOverScore}
           />
         </View>
 

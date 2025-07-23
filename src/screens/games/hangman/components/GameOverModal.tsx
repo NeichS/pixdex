@@ -1,8 +1,10 @@
-import { Modal, Text, View, StyleSheet, TextInput } from "react-native";
+import { Modal, Text, View, StyleSheet} from "react-native";
 import { TextPressStart2P } from "@/src/screens/components/TextPressStart2P";
 import { Button } from "@/src/screens/components/Button";
 import { ROUTES } from "@/src/navigation/routes";
 import { router } from "expo-router";
+import { supabase } from "@/src/lib/supabase";
+import { useEffect } from "react";
 
 interface PropsModal {
   visible: boolean;
@@ -11,13 +13,53 @@ interface PropsModal {
 }
 
 export function GameOverModal({ visible, onClose, score }: PropsModal) {
-  
-  if (visible) {
-    console.log("GameOverModal rendered with score:", score);
+useEffect(() => {
+    if (!visible) return;    // sólo actuamos al abrir el modal
 
-    //publicar score en la base de datos de supabase
-    
-  }
+    (async () => {
+      // 1. Obtener user_id
+      const {
+        data: { user },
+        error: userErr
+      } = await supabase.auth.getUser();
+      if (userErr || !user) return console.error("Usuario no autenticado", userErr);
+      const userId = user.id;
+
+      // 2. Traer la puntuación anterior (si existe)
+      const { data: existing, error: selectErr } = await supabase
+        .from("hangman_scores")
+        .select("score")
+        .eq("user_id", userId)
+        .single();
+
+      if (selectErr && selectErr.code !== "PGRST116") {
+        return console.error("Error al leer score previo", selectErr);
+      }
+      // 3. Guardar la puntuación si es mejor que la anterior
+      if (!existing) {
+        const { error: insertErr } = await supabase
+          .from("hangman_scores")
+          .insert({
+            user_id: userId,
+            score,
+            achieved_at: new Date().toISOString(),
+          });
+        if (insertErr) console.error("Error INSERT score", insertErr);
+      } else if (score > existing.score) {
+        // sólo actualizamos si superó el anterior
+        const { error: updateErr } = await supabase
+          .from("hangman_scores")
+          .update({
+            score,
+            achieved_at: new Date().toISOString(),
+          })
+          .eq("user_id", userId);
+        if (updateErr) console.error("Error UPDATE score", updateErr);
+      }
+    })();
+  }, [visible, score]);
+
+  
   const onClickBackToHome = () => {
     onClose();
     router.push(ROUTES.HOME);
