@@ -7,9 +7,17 @@ import { router } from "expo-router";
 interface PropsModal {
   visible: boolean;
   onClose: () => void;
+  score: number;
 }
 
-export function GameOverModal({ visible, onClose }: PropsModal) {
+export function GameOverModal({ visible, onClose, score }: PropsModal) {
+  
+  if (visible) {
+    console.log("GameOverModal rendered with score:", score);
+
+    //publicar score en la base de datos de supabase
+    
+  }
   const onClickBackToHome = () => {
     onClose();
     router.push(ROUTES.HOME);

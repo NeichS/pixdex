@@ -66,12 +66,10 @@ export function Game() {
     const contenidos = getAllContenido();
     
     if (contenidos && contenidos.length > 0 && !gameInitialized) {
-      console.log("Inicializando juego con contenidos:", contenidos.length);
       
       setContenidoRestante(contenidos);
 
       const initialContenido = getRandomizedContenido(contenidos);
-      console.log("Contenido inicial seleccionado:", initialContenido?.nombre);
       
       setRandomContenido(initialContenido);
       setUnderscores(generateUnderscores(initialContenido.nombre));
@@ -216,6 +214,7 @@ export function Game() {
             <Image
               source={{ uri: randomContenido.imageUrl }}
               style={styles.image}
+              contentFit="contain"
               accessibilityLabel="Imagen de la obra a adivinar"
             />
           )}
@@ -277,7 +276,6 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: "100%",
-    resizeMode: "contain",
   },
   lettersContainer: {
     width: "100%",
