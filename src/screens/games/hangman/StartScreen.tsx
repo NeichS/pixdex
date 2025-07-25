@@ -202,6 +202,7 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     width: 120,
+    marginBottom: 20,
   },
   gameContainer: {
     flex: 1,
