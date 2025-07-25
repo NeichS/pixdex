@@ -15,20 +15,20 @@ import { supabase } from "@/src/lib/supabase";
 
 interface LeaderboardEntry {
   score: number;
-  profiles: {
-    username: string;
-  }[];
+  username: string;
 }
 
 export function StartScreen() {
   const [loading, setLoading] = useState<boolean>(true);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
-
+  
+  
   // 1. Carga inicial del leaderboard
   useEffect(() => {
     fetchLeaderboard();
   }, []);
 
+  
   const fetchLeaderboard = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -44,11 +44,15 @@ export function StartScreen() {
       .order("score", { ascending: false })
       .limit(10);
 
-    if (error) {
-      console.error("Error al obtener leaderboard:", error);
-    } else {
-      // data es ahora un array de { score: number, profiles: { username: string } }
-      setLeaderboard(data);
+    if (!error && data) {
+      // Mapear a un array de { score, username }
+      const flat = data.map((r) => ({
+        score: r.score,
+        username: Array.isArray(r.profiles)
+          ? r.profiles[0]?.username ?? ""
+          : r.profiles.username,
+      }));
+      setLeaderboard(flat);
     }
     setLoading(false);
   };
@@ -78,24 +82,32 @@ export function StartScreen() {
         <TextPressStart2P style={styles.topPlayersTitle}>
           Top Players
         </TextPressStart2P>
-
         {loading ? (
           <ActivityIndicator color="#5FD068" size="large" />
         ) : (
+        
           <FlatList
             data={leaderboard}
-            keyExtractor={(_, idx) => String(idx)}
-             renderItem={({ item, index }) => {
-    const username = item.profiles[0]?.username ?? "Anónimo";
-    return (
-      <View style={styles.row}>
-        <Text style={styles.rank}>{index + 1}.</Text>
-        <Text style={styles.player}>{username}</Text>
-        <Text style={styles.score}>{item.score}</Text>
-      </View>
-    );
-  }}
-/>
+            keyExtractor={(item, index) =>
+              `${item.username}-${item.score}-${index}`
+            } 
+            renderItem={({ item, index }) => {
+              return (
+                <View style={styles.row}>
+                  <Text style={styles.rank}>{index + 1}.</Text>
+                  <Text style={styles.player}>
+                    {item.username || "Sin nombre"}
+                  </Text>
+                  <TextPressStart2P style={styles.score}>
+                    <Text>
+                      {item.score}
+                    </Text>
+                  </TextPressStart2P>
+                </View>
+              );
+            }}
+            style={styles.list} 
+          />
         )}
       </View>
     </SafeAreaView>
@@ -137,6 +149,8 @@ const styles = StyleSheet.create({
   list: {
     width: "100%",
     marginTop: 10,
+    backgroundColor: "#403E43",
+    padding: 10,
   },
   row: {
     flexDirection: "row",
@@ -160,7 +174,7 @@ const styles = StyleSheet.create({
   score: {
     width: 50,
     textAlign: "right",
-    color: "#FFFFFF",
+    color: "#5FD068",
     fontSize: 16,
   },
 });

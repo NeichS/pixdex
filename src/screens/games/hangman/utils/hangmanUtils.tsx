@@ -12,4 +12,3 @@ export function getRandomizedContenido(
   const randomContenido: ContenidoAudiovisualMapped = contenido[randomIndex];
   return randomContenido;
 }
-
