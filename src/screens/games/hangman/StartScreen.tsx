@@ -9,7 +9,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "../../components/Button";
 import { TextPressStart2P } from "../../components/TextPressStart2P";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ROUTES } from "@/src/navigation/routes";
 import { supabase } from "@/src/lib/supabase";
 
@@ -21,42 +21,125 @@ interface LeaderboardEntry {
 export function StartScreen() {
   const [loading, setLoading] = useState<boolean>(true);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
-  
-  
-  // 1. Carga inicial del leaderboard
+  const subscriptionRef = useRef<any>(null);
+
   useEffect(() => {
     fetchLeaderboard();
+    setupRealtimeSubscription();
+
+    return () => {
+      if (subscriptionRef.current) {
+        subscriptionRef.current.unsubscribe();
+      }
+    };
   }, []);
 
-  
+  // Función helper para mapear datos de forma consistente
+  const mapLeaderboardEntry = (record: any): LeaderboardEntry => ({
+    score: record.score,
+    username: record.profiles?.username || "Usuario Anónimo",
+  });
+
   const fetchLeaderboard = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("hangman_scores")
-      .select(
-        `
-      score,
-      profiles (
-        username
-      )
-    `
-      )
-      .order("score", { ascending: false })
-      .limit(10);
+    
+    try {
+      const { data, error } = await supabase
+        .from("hangman_scores")
+        .select(`
+          score,
+          profiles!inner (
+            username
+          )
+        `)
+        .order("score", { ascending: false })
+        .limit(10);
 
-    if (!error && data) {
-      // Mapear a un array de { score, username }
-      const flat = data.map((r) => ({
-        score: r.score,
-        username: Array.isArray(r.profiles)
-          ? r.profiles[0]?.username ?? ""
-          : r.profiles.username,
-      }));
-      setLeaderboard(flat);
+      if (error) {
+        console.error("Error fetching leaderboard:", error);
+        return;
+      }
+
+      if (data) {
+        const mappedData = data.map(mapLeaderboardEntry);
+        setLeaderboard(mappedData);
+      }
+    } catch (err) {
+      console.error("Unexpected error:", err);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
+  const setupRealtimeSubscription = () => {
+    subscriptionRef.current = supabase
+      .channel("hangman_scores_realtime")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "hangman_scores",
+        },
+        async (payload) => {
+          console.log("New score inserted:", payload);
+
+          // Obtener el score completo con el username
+          const { data: newScoreData, error } = await supabase
+            .from("hangman_scores")
+            .select(`
+              score,
+              profiles!inner (
+                username
+              )
+            `)
+            .eq("id", payload.new.id)
+            .single();
+
+          if (!error && newScoreData) {
+            const newEntry = mapLeaderboardEntry(newScoreData);
+
+            setLeaderboard((currentLeaderboard) => {
+              const updated = [...currentLeaderboard, newEntry]
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 10);
+              
+              return updated;
+            });
+          }
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "hangman_scores",
+        },
+        () => {
+          console.log("Score updated - refetching leaderboard");
+          fetchLeaderboard();
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "hangman_scores",
+        },
+        () => {
+          console.log("Score deleted - refetching leaderboard");
+          fetchLeaderboard();
+        }
+      )
+      .subscribe((status) => {
+        console.log("Subscription status:", status);
+        if (status === 'SUBSCRIBED') {
+          console.log('✅ Real-time subscription active');
+        }
+      });
+  };
   const startGame = () => {
     router.push(ROUTES.HANGMAN_GAME);
   };
@@ -85,12 +168,11 @@ export function StartScreen() {
         {loading ? (
           <ActivityIndicator color="#5FD068" size="large" />
         ) : (
-        
           <FlatList
             data={leaderboard}
             keyExtractor={(item, index) =>
               `${item.username}-${item.score}-${index}`
-            } 
+            }
             renderItem={({ item, index }) => {
               return (
                 <View style={styles.row}>
@@ -99,14 +181,12 @@ export function StartScreen() {
                     {item.username || "Sin nombre"}
                   </Text>
                   <TextPressStart2P style={styles.score}>
-                    <Text>
-                      {item.score}
-                    </Text>
+                    {item.score}
                   </TextPressStart2P>
                 </View>
               );
             }}
-            style={styles.list} 
+            style={styles.list}
           />
         )}
       </View>
