@@ -293,5 +293,6 @@ const styles = StyleSheet.create({
     width: 50,
     color: "#5FD068",
     fontSize: 16,
+    marginTop: 5,
   },
 });
