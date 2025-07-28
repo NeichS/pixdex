@@ -4,7 +4,6 @@ import {
   View,
   Text,
   FlatList,
-  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "../../components/Button";
@@ -42,16 +41,18 @@ export function StartScreen() {
 
   const fetchLeaderboard = async () => {
     setLoading(true);
-    
+
     try {
       const { data, error } = await supabase
         .from("hangman_scores")
-        .select(`
+        .select(
+          `
           score,
           profiles!inner (
             username
           )
-        `)
+        `
+        )
         .order("score", { ascending: false })
         .limit(10);
 
@@ -87,12 +88,14 @@ export function StartScreen() {
           // Obtener el score completo con el username
           const { data: newScoreData, error } = await supabase
             .from("hangman_scores")
-            .select(`
+            .select(
+              `
               score,
               profiles!inner (
                 username
               )
-            `)
+            `
+            )
             .eq("id", payload.new.id)
             .single();
 
@@ -103,7 +106,7 @@ export function StartScreen() {
               const updated = [...currentLeaderboard, newEntry]
                 .sort((a, b) => b.score - a.score)
                 .slice(0, 10);
-              
+
               return updated;
             });
           }
@@ -135,8 +138,8 @@ export function StartScreen() {
       )
       .subscribe((status) => {
         console.log("Subscription status:", status);
-        if (status === 'SUBSCRIBED') {
-          console.log('✅ Real-time subscription active');
+        if (status === "SUBSCRIBED") {
+          console.log("✅ Real-time subscription active");
         }
       });
   };
@@ -166,7 +169,15 @@ export function StartScreen() {
           Top Players
         </TextPressStart2P>
         {loading ? (
-          <ActivityIndicator color="#5FD068" size="large" />
+          <View style={styles.list}>
+            {Array.from({ length: 10 }).map((_, i) => (
+              <View style={styles.skeletonRow} key={i}>
+                <View style={styles.skeletonRank} />
+                <View style={styles.skeletonPlayer} />
+                <View style={styles.skeletonScore} />
+              </View>
+            ))}
+          </View>
         ) : (
           <FlatList
             data={leaderboard}
@@ -227,11 +238,36 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 20,
   },
+  skeletonRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 6,
+  },
+  skeletonRank: {
+    width: 30,
+    height: 16,
+    borderRadius: 4,
+    backgroundColor: "#555",
+  },
+  skeletonPlayer: {
+    flex: 1,
+    height: 16,
+    borderRadius: 4,
+    marginHorizontal: 10,
+    backgroundColor: "#555",
+  },
+  skeletonScore: {
+    width: 50,
+    height: 16,
+    borderRadius: 4,
+    backgroundColor: "#555",
+  },
   list: {
     width: "100%",
-    marginTop: 10,
+    gap: 10,
     backgroundColor: "#403E43",
-    padding: 10,
+    padding: 15,
   },
   row: {
     flexDirection: "row",
@@ -253,8 +289,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   score: {
-    width: 50,
     textAlign: "right",
+    width: 50,
     color: "#5FD068",
     fontSize: 16,
   },
