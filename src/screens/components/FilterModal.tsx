@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-  Modal,
-} from "react-native";
+import { StyleSheet, Text, View, Pressable, Modal } from "react-native";
 import Checkbox from "expo-checkbox";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { TextPressStart2P } from "./TextPressStart2P";
@@ -26,7 +20,7 @@ export function FilterModal({ visible, onClose }: PropsFilterModal) {
     getTypeFilter,
     getGenreFilter,
     clearTypeFilter,
-    clearGenreFilter
+    clearGenreFilter,
   } = useContext(ContextoFilter);
 
   const tipos = getAllTipos();
@@ -59,33 +53,52 @@ export function FilterModal({ visible, onClose }: PropsFilterModal) {
   };
 
   const onApply = () => {
-  clearGenreFilter();
-  clearTypeFilter();
+    clearGenreFilter();
+    clearTypeFilter();
 
-  checks.forEach((activo, i) => {
-    if (activo) addTypeFilter(tipos[i].id);
-  });
-  checksGeneros.forEach((activo, i) => {
-    if (activo) addGenreFilter(generos[i].id);
-  });
+    checks.forEach((activo, i) => {
+      if (activo) addTypeFilter(tipos[i].id);
+    });
+    checksGeneros.forEach((activo, i) => {
+      if (activo) addGenreFilter(generos[i].id);
+    });
 
-  onClose();
-};
+    onClose();
+  };
+
+  const onClear = () => {
+    setChecks(tipos.map(() => false));
+    setChecksGeneros(generos.map(() => false));
+  }
 
   return (
-    <Modal animationType="slide" backdropColor = "rgba(0,0,0,0.25)" visible={visible} onRequestClose={onClose}>
+    <Modal
+      animationType="slide"
+      backdropColor="rgba(0,0,0,0.25)"
+      visible={visible}
+      onRequestClose={onClose}
+    >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           {/* Header */}
           <View style={styles.modalContent}>
-            <TextPressStart2P style={styles.title}>Filtrar Contenido</TextPressStart2P>
+            <TextPressStart2P style={styles.title}>
+              Filtrar Contenido
+            </TextPressStart2P>
             <Pressable onPress={onClose}>
-              <AntDesign name="closecircleo" size={24} color="#6E59A5" style={ styles.modalClose}/>
+              <AntDesign
+                name="closecircleo"
+                size={24}
+                color="#6E59A5"
+                style={styles.modalClose}
+              />
             </Pressable>
           </View>
 
           {/* Tipos */}
-          <TextPressStart2P style={styles.greenTitle}>Tipos de contenido</TextPressStart2P>
+          <TextPressStart2P style={styles.greenTitle}>
+            Tipos de contenido
+          </TextPressStart2P>
           {tipos.map((tipo, idx) => (
             <View key={tipo.id} style={styles.checkBoxContainer}>
               <Checkbox
@@ -120,7 +133,7 @@ export function FilterModal({ visible, onClose }: PropsFilterModal) {
 
           {/* Botones */}
           <View style={styles.botonesContainer}>
-            <Button label="CANCELAR" action={onClose} background="#403E43" />
+            <Button label="RESETEAR" action={onClear} background="#403E43" />
             <Button label="APLICAR FILTROS" action={onApply} />
           </View>
         </View>
