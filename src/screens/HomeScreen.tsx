@@ -59,12 +59,14 @@ export function HomeScreen() {
           description="Adivina los títulos letra por letra ¿Cuántos puedes identificar?"
           bgColor="#6E59A5"
           juegoUrl={ROUTES.HANGMAN as RelativePathString}
+          disabled={!session || !session.user}
         />
         <CajaJuego
           title="Pixel reveal"
           description="Identifica títulos desde imagenes pixeladas. ¡Pon a prueba tu memoria visual!"
           bgColor="#5FD068"
           juegoUrl={ROUTES.HOME as RelativePathString}
+          disabled={!session || !session.user}
         />
       </View>
 

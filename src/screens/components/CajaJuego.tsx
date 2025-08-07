@@ -1,27 +1,34 @@
-import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
+import { TouchableOpacity, Text, View, StyleSheet, Alert } from "react-native";
 import { TextPressStart2P } from "./TextPressStart2P";
 import { RelativePathString, router } from "expo-router";
-import { ROUTES } from "@/src/navigation/routes";
 interface CajaJuegoProps {
   title: string;
   description: string;
   bgColor: string;
   juegoUrl: RelativePathString; // URL del juego, opcional
+  disabled?: boolean;
 }
 export function CajaJuego({
   title,
   description,
   bgColor,
-  juegoUrl
+  juegoUrl,
+  disabled = false,
 }: CajaJuegoProps) {
-
   const handlePress = () => () => {
+    if (disabled) {
+      Alert.alert("Inicia sesión para jugar");
+    } else {
       router.push(`${juegoUrl}`);
-    };
+    }
+  };
 
   return (
     <View style={[styles.cajaJuego, { backgroundColor: bgColor }]}>
-      <TouchableOpacity onPress={handlePress()}>
+      <TouchableOpacity
+        onPress={handlePress()}
+        activeOpacity={disabled ? 1 : 0.7}
+      >
         <TextPressStart2P style={styles.title} accessibilityLabel="title">
           {title}
         </TextPressStart2P>

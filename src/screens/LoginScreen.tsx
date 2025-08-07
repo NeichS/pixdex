@@ -83,6 +83,7 @@ export function LoginScreen() {
       }
     }
     setLoading(false);
+    navToHome();
   }
 
   async function signUpWithEmail() {
