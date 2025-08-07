@@ -4,13 +4,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { TextPressStart2P } from "./components/TextPressStart2P";
 import { Button } from "./components/Button";
 import { Contenido } from "./components/Contenido";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FilterModal } from "./components/FilterModal";
 import { useContext } from "react";
 import { ContextoFilter } from "@/src/context/Filter";
 import { ROUTES } from "../navigation/routes";
 import { RelativePathString } from "expo-router";
-import { signOut } from "../lib/supabase";
+import { signOut, supabase } from "../lib/supabase";
+import { Session } from '@supabase/supabase-js'
+import { router } from "expo-router";
 
 export function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -22,6 +24,20 @@ export function HomeScreen() {
   const onCloseModal = () => {
     setModalVisible(false);
   };
+
+  const navigateToLogin = () => {
+    router.push(ROUTES.LOGIN)
+  }
+
+  const [session, setSession] = useState<Session | null>(null)
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+  }, []);
 
   const filterIconColor: string = isFiltered() ? "#5FD068" : "white";
 
@@ -57,7 +73,7 @@ export function HomeScreen() {
           <Contenido />
 
           <View style={styles.logoutButton}>
-            <Button action={signOut} label="LOG OUT" iconName="power" />
+            {session && session.user ? <Button action={signOut} label="LOG OUT" iconName="power" /> : <Button action={navigateToLogin} label="Log in"/>}
           </View>
         </ScrollView>
       </View>

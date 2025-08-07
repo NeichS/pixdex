@@ -14,6 +14,8 @@ import { Button } from "./components/Button";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextPressStart2P } from "./components/TextPressStart2P";
 import { ContextoPlayerName } from "../context/PlayerName";
+import { router } from "expo-router";
+import { ROUTES } from "../navigation/routes";
 
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
@@ -29,7 +31,8 @@ AppState.addEventListener("change", (state) => {
 
 export function LoginScreen() {
   const [isSignInMode, setIsSignInMode] = useState(true);
-  const { setPlayerNameHandler, getPlayerName } = useContext(ContextoPlayerName);
+  const { setPlayerNameHandler, getPlayerName } =
+    useContext(ContextoPlayerName);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -41,46 +44,46 @@ export function LoginScreen() {
   >(null);
 
   async function fetchCurrentUsername(userId: string): Promise<string | null> {
-  const { data, error } = await supabase
-    .from("profiles")
-    .select("username")
-    .eq("id", userId)
-    .maybeSingle();
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("username")
+      .eq("id", userId)
+      .maybeSingle();
 
-  if (error) {
-    console.error("fetchCurrentUsername error:", error);
-    return null;
-  }
-  return data?.username?.trim() ?? null;
-}
-
-async function signInWithEmail() {
-  setLoading(true);
-
-  const { data: signInData, error: authError } =
-    await supabase.auth.signInWithPassword({ email, password });
-  if (authError) {
-    Alert.alert(authError.message);
-    setLoading(false);
-    return;
-  }
-
-  const user = signInData.user;
-  const username = await fetchCurrentUsername(user.id);
-
-  if (username) {
-    setPlayerNameHandler(username);
-  } else {
-    const metaUsername =
-      (user.user_metadata?.username as string | undefined)?.trim() ?? "";
-    if (metaUsername) {
-      setPlayerNameHandler(metaUsername);
-    } else {
-      Alert.alert("No se pudo obtener tu username. Intentá nuevamente.");
+    if (error) {
+      console.error("fetchCurrentUsername error:", error);
+      return null;
     }
+    return data?.username?.trim() ?? null;
   }
-  setLoading(false);
-}
+
+  async function signInWithEmail() {
+    setLoading(true);
+
+    const { data: signInData, error: authError } =
+      await supabase.auth.signInWithPassword({ email, password });
+    if (authError) {
+      Alert.alert(authError.message);
+      setLoading(false);
+      return;
+    }
+
+    const user = signInData.user;
+    const username = await fetchCurrentUsername(user.id);
+
+    if (username) {
+      setPlayerNameHandler(username);
+    } else {
+      const metaUsername =
+        (user.user_metadata?.username as string | undefined)?.trim() ?? "";
+      if (metaUsername) {
+        setPlayerNameHandler(metaUsername);
+      } else {
+        Alert.alert("No se pudo obtener tu username. Intentá nuevamente.");
+      }
+    }
+    setLoading(false);
+  }
 
   async function signUpWithEmail() {
     if (password !== confirmPassword) {
@@ -117,116 +120,123 @@ async function signInWithEmail() {
 
     setCheckingUsername(true);
 
-    // Versión simple usando ilike (case-insensitive) + count
     const { data, error, count } = await supabase
       .from("profiles")
       .select("id", { count: "exact", head: false })
-      .ilike("username", trimmed); // o `.eq("username", trimmed.toLowerCase())` si normalizás
+      .ilike("username", trimmed);
 
     setCheckingUsername(false);
 
     if (error) {
       console.error("Error checking username", error);
-      // En duda, asumí tomado para prevenir duplicados
       return true;
     }
 
-    // Si RLS bloqueó la vista de otras filas y solo ves las tuyas,
-    // podrías estar subestimando `count`. En ese caso conviene policy pública
-    // o vista pública (ver arriba).
     return (count ?? 0) > 0;
   }
 
+  const navToHome = () => {
+    router.push(ROUTES.HOME);
+  };
   return (
     <SafeAreaView edges={["bottom", "top"]} style={styles.container}>
-      <TextPressStart2P style={styles.title}>
-        WELCOME TO PIXDEX
-      </TextPressStart2P>
-      <View style={styles.inputsContainer}>
-        {/* SOLO en modo SignUp mostramos username */}
-        {!isSignInMode && (
-          <>
-            <TextInput
-              style={styles.input}
-              placeholder="Username"
-              placeholderTextColor="#8E9196"
-              autoCapitalize="none"
-              value={username}
-              onChangeText={(t) => {
-                setUsername(t);
-                setIsUsernameAvailable(null);
-              }}
-              onBlur={async () => {
-                const taken = await isUsernameTaken(username);
-                if (taken) {
-                  setIsUsernameAvailable(false);
-                  Alert.alert("Ese username ya está en uso.");
-                } else {
-                  setIsUsernameAvailable(true);
-                }
-              }}
-            />
-            {checkingUsername && <ActivityIndicator size="small" />}
-            {isUsernameAvailable === false && (
-              <Text style={styles.errorText}>Username already in use.</Text>
-            )}
-            {isUsernameAvailable === true && (
-              <Text style={styles.okText}>Username available ✅</Text>
-            )}
-          </>
-        )}
-        <TextInput
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          style={styles.input}
-          placeholder="email@address.com"
-          placeholderTextColor="#8E9196"
-          autoCapitalize={"none"}
-          autoComplete="email"
-        />
-        <TextInput
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          style={styles.input}
-          secureTextEntry={true}
-          placeholder="Password"
-          placeholderTextColor="#8E9196"
-          autoCapitalize={"none"}
-          autoComplete="password"
-        />
-        {!isSignInMode && (
+      <View style={styles.backToHome}>
+        <Button action={navToHome} label="BACK TO HOME" />
+      </View>
+      <View style={styles.container}>
+        <TextPressStart2P style={styles.title}>
+          WELCOME TO PIXDEX
+        </TextPressStart2P>
+        <View style={styles.inputsContainer}>
+          {/* SOLO en modo SignUp mostramos username */}
+          {!isSignInMode && (
+            <>
+              <TextInput
+                style={styles.input}
+                placeholder="Username"
+                placeholderTextColor="#8E9196"
+                autoCapitalize="none"
+                value={username}
+                onChangeText={(t) => {
+                  setUsername(t);
+                  setIsUsernameAvailable(null);
+                }}
+                onBlur={async () => {
+                  const taken = await isUsernameTaken(username);
+                  if (taken) {
+                    setIsUsernameAvailable(false);
+                    Alert.alert("Ese username ya está en uso.");
+                  } else {
+                    setIsUsernameAvailable(true);
+                  }
+                }}
+              />
+              {checkingUsername && <ActivityIndicator size="small" />}
+              {isUsernameAvailable === false && (
+                <Text style={styles.errorText}>Username already in use.</Text>
+              )}
+              {isUsernameAvailable === true && (
+                <Text style={styles.okText}>Username available ✅</Text>
+              )}
+            </>
+          )}
           <TextInput
-            onChangeText={setConfirmPassword}
-            value={confirmPassword}
+            onChangeText={(text) => setEmail(text)}
+            value={email}
+            style={styles.input}
+            placeholder="email@address.com"
+            placeholderTextColor="#8E9196"
+            autoCapitalize={"none"}
+            autoComplete="email"
+          />
+          <TextInput
+            onChangeText={(text) => setPassword(text)}
+            value={password}
             style={styles.input}
             secureTextEntry={true}
-            placeholder="Confirm password"
+            placeholder="Password"
             placeholderTextColor="#8E9196"
-            autoCapitalize="none"
+            autoCapitalize={"none"}
             autoComplete="password"
           />
-        )}
-      </View>
-      <View style={styles.switchContainer}>
-        <Text style={styles.switchLabel}>¿Ya tienes cuenta?</Text>
-        <Switch value={isSignInMode} onValueChange={setIsSignInMode} />
-      </View>
-      <View style={styles.buttons}>
-        {isSignInMode ? (
-          <Button label="SIGN IN" disabled={loading} action={signInWithEmail} />
-        ) : (
-          <Button
-            label="SIGN UP"
-            disabled={
-              loading ||
-              checkingUsername ||
-              isUsernameAvailable === false ||
-              password.length === 0 ||
-              confirmPassword.length === 0
-            }
-            action={signUpWithEmail}
-          />
-        )}
+          {!isSignInMode && (
+            <TextInput
+              onChangeText={setConfirmPassword}
+              value={confirmPassword}
+              style={styles.input}
+              secureTextEntry={true}
+              placeholder="Confirm password"
+              placeholderTextColor="#8E9196"
+              autoCapitalize="none"
+              autoComplete="password"
+            />
+          )}
+        </View>
+        <View style={styles.switchContainer}>
+          <Text style={styles.switchLabel}>¿Ya tienes cuenta?</Text>
+          <Switch value={isSignInMode} onValueChange={setIsSignInMode} />
+        </View>
+        <View style={styles.buttons}>
+          {isSignInMode ? (
+            <Button
+              label="SIGN IN"
+              disabled={loading}
+              action={signInWithEmail}
+            />
+          ) : (
+            <Button
+              label="SIGN UP"
+              disabled={
+                loading ||
+                checkingUsername ||
+                isUsernameAvailable === false ||
+                password.length === 0 ||
+                confirmPassword.length === 0
+              }
+              action={signUpWithEmail}
+            />
+          )}
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -238,6 +248,10 @@ const styles = StyleSheet.create({
     padding: 12,
     flex: 1,
     justifyContent: "center",
+  },
+  backToHome: {
+    width: "50%",
+    justifyContent: "flex-start",
   },
   title: {
     color: "#6E59A5",
