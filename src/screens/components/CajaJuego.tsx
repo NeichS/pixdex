@@ -1,6 +1,7 @@
 import { TouchableOpacity, Text, View, StyleSheet, Alert } from "react-native";
 import { TextPressStart2P } from "./TextPressStart2P";
 import { RelativePathString, router } from "expo-router";
+import { ROUTES } from "@/src/navigation/routes";
 interface CajaJuegoProps {
   title: string;
   description: string;
@@ -17,7 +18,10 @@ export function CajaJuego({
 }: CajaJuegoProps) {
   const handlePress = () => () => {
     if (disabled) {
-      Alert.alert("Inicia sesión para jugar");
+      Alert.alert("Autenticacion requerida", "Inicie sesión para jugar",         [
+          { text: 'Cancelar', style: 'cancel' },
+          { text: 'Iniciar sesión', onPress: () => router.push(ROUTES.LOGIN) }
+        ],);
     } else {
       router.push(`${juegoUrl}`);
     }
