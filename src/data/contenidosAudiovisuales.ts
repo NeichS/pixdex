@@ -248,7 +248,7 @@ export const contenidosAudiovisuales: ContenidoAudiovisual[] = [
   },
   {
     id: 25,
-    nombre: "Avengers: Endgame",
+    nombre: "Avengers Endgame",
     descripcion: "Los Vengadores enfrentan la batalla final contra Thanos.",
     generos: [3, 11, 4],
     tipoId: 2,
