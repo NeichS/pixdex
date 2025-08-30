@@ -25,7 +25,7 @@ Este repositorio contiene una aplicación desarrollada con **Expo** y **React Na
 1. Clona el repositorio:
 
    ```bash
-   git clone https://github.com/TU_USUARIO/tu-proyecto-expo.git
+   git clone https://github.com/NeichS/pixdex.git
    cd tu-proyecto-expo
    ```
 
