@@ -26,7 +26,7 @@ Este repositorio contiene una aplicación desarrollada con **Expo** y **React Na
 
    ```bash
    git clone https://github.com/NeichS/pixdex.git
-   cd tu-proyecto-expo
+   cd pixdex
    ```
 
 2. Instala las dependencias:
