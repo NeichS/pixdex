@@ -9,6 +9,7 @@ Este repositorio contiene una aplicación desarrollada con **Expo** y **React Na
 * Node.js (versión 16 o superior)
 * npm o Yarn
 * Expo CLI instalado globalmente:
+* Crear entorno de supabase
 
   ```bash
   npm install -g expo-cli
@@ -52,8 +53,11 @@ El proyecto utiliza un archivo `.env` en la raíz. Asegúrate de definir al meno
 
 ```ini
 # .env
-API_URL=http://192.168.x.x:8081
-# Otras variables que necesite tu proyecto...
+EXPO_PUBLIC_API_URL=
+# url api de supabase
+EXPO_PUBLIC_SUPABASE_URL=
+# llave de acceso a la api de supabase
+EXPO_PUBLIC_SUPABASE_ANON_KEY=
 ```
 
 ---
@@ -63,7 +67,7 @@ API_URL=http://192.168.x.x:8081
 * Para iniciar en modo desarrollo:
 
   ```bash
-  expo start
+  npx expo start
   ```
 
   Se abrirá Expo DevTools en tu navegador.
